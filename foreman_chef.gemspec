@@ -1,17 +1,17 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 # Maintain your gem's version:
-require "foreman_plugin_template/version"
+require "foreman_chef/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "foreman_plugin_template"
-  s.version     = ForemanPluginTemplate::VERSION
+  s.name        = "foreman_chef"
+  s.version     = ForemanChef::VERSION
   s.authors     = ["TODO: Your name"]
   s.email       = ["TODO: Your email"]
   s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of ForemanPluginTemplate."
-  s.description = "TODO: Description of ForemanPluginTemplate."
+  s.summary     = "TODO: Summary of ForemanChef."
+  s.description = "TODO: Description of ForemanChef."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]

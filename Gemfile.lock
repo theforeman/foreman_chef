@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    foreman_plugin_template (0.0.1)
+    foreman_chef (0.0.1)
       rails (~> 3.2.13)
 
 GEM
@@ -93,6 +93,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  foreman_plugin_template!
+  foreman_chef!
   jquery-rails
   sqlite3

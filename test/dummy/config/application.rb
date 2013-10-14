@@ -3,7 +3,7 @@ require File.expand_path('../boot', __FILE__)
 require 'rails/all'
 
 Bundler.require(*Rails.groups)
-require "foreman_plugin_template"
+require "foreman_chef"
 
 module Dummy
   class Application < Rails::Application

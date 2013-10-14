@@ -1,5 +1,5 @@
 # Ensure that module is namespaced with plugin name
-module ForemanPluginTemplate
+module ForemanChef
 	# Example: Create new instance and class methods on Foreman's Host model
 	# module HostExtensions
 	# 	extend ActiveSupport::Concern

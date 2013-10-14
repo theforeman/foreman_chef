@@ -1,4 +1,4 @@
 # desc "Explaining what the task does"
-# task :foreman_plugin_template do
+# task :foreman_chef do
 #   # Task goes here
 # end
