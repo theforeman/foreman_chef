@@ -7,11 +7,11 @@ require "foreman_chef/version"
 Gem::Specification.new do |s|
   s.name        = "foreman_chef"
   s.version     = ForemanChef::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of ForemanChef."
-  s.description = "TODO: Description of ForemanChef."
+  s.authors     = ["Marek Hulan"]
+  s.email       = ["ares@igloonet.cz"]
+  s.homepage    = "https://github.com/ares/foreman_chef"
+  s.summary     = "Plugin for Chef integration with Foreman"
+  s.description = "Extensions to foreman that are required for better Chef integration."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
