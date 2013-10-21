@@ -16,9 +16,9 @@ module ForemanChef
 
         conds = values.where_values.map { |c| c.split(/AND|OR/) }.flatten.reject { |c| c.include?('"hosts"."name"') }
 
-        if (parent = params[:parent_fact]).present?
-          @parent = FactName.find_by_name(parent)
-          values  = values.where(:fact_names => { :parent_id => @parent.id })
+        if (parent = params[:parent_fact]).present? && (@parent = ::FactName.find_all_by_name(parent)).present?
+          values = values.where(:fact_names => { :parent_id => @parent.map(&:id) })
+          @parent = @parent.first
         elsif conds.present?
           values
         else

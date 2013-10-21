@@ -13,6 +13,8 @@ module ForemanChef
       before_save :set_name, :if => Proc.new { |fact| fact.short_name.blank? }
       after_create :set_root
 
+      validates :name, :uniqueness => { :scope => :type }
+
       scope :roots, where(:parent_id => nil)
     end
 

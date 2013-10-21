@@ -11,16 +11,11 @@
   <td>
     <% name = fact_name(fact, parent) %>
 
-    <% if fact.compose %>
-        <%= image_tag 'foreman_chef/plus.png', :alt => _('Expand nested items') %>
-        <%= name %>
-    <% else %>
+    <% unless fact.compose %>
         <%= link_to_function image_tag("pie_chart_icon.png", :alt => _("Show distribution chart")),
                              "get_pie_chart('fact_chart-#{fact.fact_name_id}', '#{fact_path(fact.fact_name_id)}')" %>
-        <%= name %>
     <% end %>
-
-
+    <%= name %>
 
   </td>
   <td>

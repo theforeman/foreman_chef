@@ -13,9 +13,9 @@ module ForemanChef
 
     #Include extenstions to models in this config.to_prepare block
     config.to_prepare do
-      FactName.send :include, ForemanChef::FactNameExtensions
-      FactValue.send :include, ForemanChef::FactValueExtensions
-      FactValuesController.send :include, ForemanChef::FactValuesControllerExtensions
+      ::FactName.send :include, ForemanChef::FactNameExtensions
+      ::FactValue.send :include, ForemanChef::FactValueExtensions
+      ::FactValuesController.send :include, ForemanChef::FactValuesControllerExtensions
     end
   end
 end
