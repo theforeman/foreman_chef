@@ -16,6 +16,7 @@ module ForemanChef
       ::FactName.send :include, ForemanChef::FactNameExtensions
       ::FactValue.send :include, ForemanChef::FactValueExtensions
       ::FactValuesController.send :include, ForemanChef::FactValuesControllerExtensions
+      ::FactImporter.register_fact_importer(:foreman_chef, ForemanChef::FactImporter)
     end
   end
 end

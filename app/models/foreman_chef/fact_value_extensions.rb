@@ -12,11 +12,7 @@ module ForemanChef
       scope :with_roots, includes(:fact_name)
       scope :root_only, with_roots.where(:fact_names => {:parent_id => nil})
 
-
-      # composes can't be deleted during imports
-      def undeletable?
-        self.compose
-      end
+      scoped_search :in => :fact_name, :on => :short_name, :complete_value => true, :alias => "fact_short_name"
     end
 
     def build_parents
