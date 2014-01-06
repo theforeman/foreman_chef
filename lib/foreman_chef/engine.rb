@@ -7,6 +7,11 @@ module ForemanChef
       app.config.paths['db/migrate'] += ForemanChef::Engine.paths['db/migrate'].existent
     end
 
+    initializer 'foreman_chef.register_plugin', :after=> :finisher_hook do |app|
+      Foreman::Plugin.register :foreman_chef do
+      end if defined? Foreman::Plugin
+    end
+
     #initializer 'foreman_chef.helper' do |app|
     #  ActionView::Base.send :include, FactValuesHelper
     #end
