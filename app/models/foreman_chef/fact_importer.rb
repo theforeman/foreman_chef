@@ -4,6 +4,10 @@ module ForemanChef
       ForemanChef::FactName
     end
 
+    def self.support_background
+      true
+    end
+
     private
 
     attr_accessor :original_facts
