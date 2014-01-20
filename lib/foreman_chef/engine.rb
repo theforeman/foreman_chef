@@ -9,7 +9,8 @@ module ForemanChef
 
     initializer 'foreman_chef.register_plugin', :after=> :finisher_hook do |app|
       Foreman::Plugin.register :foreman_chef do
-      end if defined? Foreman::Plugin
+        requires_foreman '>= 1.4'
+      end if Foreman::Plugin rescue(false)
     end
 
     #initializer 'foreman_chef.helper' do |app|
