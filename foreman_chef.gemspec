@@ -12,8 +12,9 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/theforeman/foreman_chef"
   s.summary     = "Plugin for Chef integration with Foreman"
   s.description = "Foreman extensions that are required for better Chef integration."
+  s.licenses    = ['GPL-3']
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 3.2.8"
