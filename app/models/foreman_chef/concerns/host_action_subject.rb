@@ -6,6 +6,7 @@ module ForemanChef
       include ForemanTasks::Concerns::ActionTriggering
 
       def destroy_action
+        sync_action!
         ::Actions::ForemanChef::Host::Destroy
       end
 
