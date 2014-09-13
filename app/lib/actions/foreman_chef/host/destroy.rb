@@ -4,7 +4,7 @@ module Actions
       class Destroy < Actions::EntryAction
 
         def plan(host)
-          if (proxy = ::SmartProxy.find_by_id(host.chef_proxy_id))
+          if (Setting::ForemanChef.auto_deletion && proxy = ::SmartProxy.find_by_id(host.chef_proxy_id))
             node_exists_in_chef = proxy.show_node(host.name)
             if node_exists_in_chef
               action_subject(host)
