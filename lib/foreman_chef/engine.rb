@@ -5,6 +5,12 @@ module ForemanChef
   #Thus, inhereits from ::Rails::Engine and not from Rails::Engine
   class Engine < ::Rails::Engine
 
+    rake_tasks do
+      Rake::Task['db:seed'].enhance do
+        ForemanChef::Engine.load_seed
+      end
+    end
+
     initializer 'foreman_chef.load_default_settings', :before => :load_config_initializers do
       require_dependency File.expand_path('../../../app/models/setting/foreman_chef.rb', __FILE__) if (Setting.table_exists? rescue(false))
     end
