@@ -3,7 +3,7 @@ module ForemanChef
     def chef_proxy_form(f)
     # Don't show this if we have no Chef proxies, otherwise always include blank
     # so the user can choose not to use puppet on this host
-    proxies = SmartProxy.with_taxonomy_scope_override(@location,@organization).with_features('Chef Proxy')
+    proxies = SmartProxy.with_taxonomy_scope_override(@location,@organization).with_features('Chef')
     return if proxies.count == 0
     select_f f, :chef_proxy_id, proxies, :id, :name,
              { :include_blank => blank_or_inherit_f(f, :chef_proxy) },
