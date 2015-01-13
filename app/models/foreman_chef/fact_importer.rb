@@ -4,6 +4,10 @@ module ForemanChef
       ForemanChef::FactName
     end
 
+    def self.authorized_smart_proxy_features
+      'Chef'
+    end
+
     def self.support_background
       true
     end
