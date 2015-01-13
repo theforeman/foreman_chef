@@ -8,7 +8,7 @@ module ForemanChef
 
     def chef_proxy
       if ancestry.present?
-        SmartProxy.with_features('Chef Proxy').find_by_id(inherited_chef_proxy_id)
+        SmartProxy.with_features('Chef').find_by_id(inherited_chef_proxy_id)
       else
         super
       end
