@@ -33,6 +33,10 @@ module ForemanChef
       ActionView::Base.send :include, ChefProxyForm
     end
 
+    initializer 'foreman_chef.dynflow_world' do |app|
+       ForemanTasks.dynflow.require!
+    end
+
     #Include extensions to models in this config.to_prepare block
     config.to_prepare do
       ::Host::Managed.send :include, ForemanChef::HostExtensions
