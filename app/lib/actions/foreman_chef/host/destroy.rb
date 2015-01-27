@@ -1,3 +1,5 @@
+require_dependency 'setting/foreman_chef'
+
 module Actions
   module ForemanChef
     module Host

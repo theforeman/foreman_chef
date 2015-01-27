@@ -33,7 +33,7 @@ module ForemanChef
       ActionView::Base.send :include, ChefProxyForm
     end
 
-    initializer 'foreman_chef.dynflow_world' do |app|
+    initializer 'foreman_chef.dynflow_world', :before => 'foreman_tasks.initialize_dynflow' do |app|
        ForemanTasks.dynflow.require!
     end
 
