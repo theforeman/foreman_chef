@@ -26,11 +26,13 @@ module ForemanChef
     initializer 'foreman_chef.register_plugin', :after => :finisher_hook do |app|
       Foreman::Plugin.register :foreman_chef do
         requires_foreman '>= 1.4'
+        allowed_template_helpers :chef_bootstrap
       end
     end
 
     initializer 'foreman_chef.chef_proxy_form' do |app|
       ActionView::Base.send :include, ChefProxyForm
+      ActionView::Base.send :include, ForemanChef::Concerns::Renderer
     end
 
     initializer 'foreman_chef.dynflow_world', :before => 'foreman_tasks.initialize_dynflow' do |app|
@@ -46,6 +48,10 @@ module ForemanChef
       ::SmartProxy.send :include, SmartProxyExtensions
       ::FactImporter.register_fact_importer(:foreman_chef, ForemanChef::FactImporter)
       ::Host::Base.send :include, ForemanChef::Concerns::HostActionSubject
+    end
+
+    config.after_initialize do
+      ::Foreman::Renderer.send :include, ForemanChef::Concerns::Renderer
     end
   end
 end
