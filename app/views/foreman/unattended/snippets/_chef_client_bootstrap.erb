@@ -1,0 +1,41 @@
+echo "Creating validation.pem"
+mkdir /etc/chef
+touch /etc/chef/validation.pem
+chmod 600 /etc/chef/validation.pem
+
+## You need to paste here foreman's private key
+cat << 'EOF' > /etc/chef/validation.pem
+<%= @host.params['chef_validation_private_key'] %>
+EOF
+
+echo "Configuring chef client.rb"
+cat << 'EOF' > /etc/chef/client.rb
+log_level        :info
+log_location     STDOUT
+chef_server_url  "<%= @host.params['chef_server_url'] %>"
+validation_client_name "chef-validator"
+file_backup_path   "/var/lib/chef"
+file_cache_path    "/var/cache/chef"
+pid_file           "/var/run/chef/client.pid"
+
+require 'chef_handler_foreman'
+foreman_server_options  :url => "<%= @host.params['chef_handler_foreman_url'] %>"
+foreman_facts_upload    true
+foreman_reports_upload  true
+EOF
+
+# You may set here the default run list for all your nodes
+cat << 'EOF' > /tmp/base.json
+{
+"run_list": ["role[default]"]
+}
+EOF
+
+#first run of chef-client
+echo "First run of chef-client"
+/usr/local/bin/chef-client -j /tmp/base.json || /usr/bin/chef-client -j /tmp/base.json
+
+echo "Finished, cleaning"
+rm -f /tmp/base.json
+# you can comment this line to keep validaton.pem (e.g. for debugging purposes)
+rm -f /etc/chef/validation.pem

@@ -17,3 +17,7 @@ module ForemanChef
     end
   end
 end
+
+class ::Host::Managed::Jail < Safemode::Jail
+  allow :chef_proxy
+end
