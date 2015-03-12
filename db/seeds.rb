@@ -21,6 +21,7 @@ parameters = [
   { :name => 'chef_validation_private_key', :value => 'UNSPECIFIED, you must upload your validation key here' },
   { :name => 'chef_bootstrap_template', :value => 'chef-client omnibus bootstrap' },
   { :name => 'chef_server_certificate', :value => '' },
+  { :name => 'chef_validator_name', :value => 'chef-validator' },
 ]
 
 parameters.each do |parameter|
