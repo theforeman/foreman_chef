@@ -8,6 +8,16 @@ cat << 'EOF' > /etc/chef/validation.pem
 <%= @host.params['chef_validation_private_key'] %>
 EOF
 
+## If chef_server_certificate is present, install it into /etc/chef/trusted_certs
+<% chef_server_certificate = @host.params['chef_server_certificate'] -%>
+<% if !chef_server_certificate.nil? && !chef_server_certificate.empty? -%>
+mkdir -p /etc/chef/trusted_certs
+chmod 0755 /etc/chef/trusted_certs
+cat << 'EOF' > /etc/chef/trusted_certs/chef-server.pem
+<%= chef_server_certificate %>
+EOF
+<% end -%>
+
 echo "Configuring chef client.rb"
 cat << 'EOF' > /etc/chef/client.rb
 log_level        :info
