@@ -1,5 +1,7 @@
 module ForemanChef
   class FactImporter < ::FactImporter
+    class FactNameImportError < StandardError; end
+
     def fact_name_class
       ForemanChef::FactName
     end
@@ -30,9 +32,21 @@ module ForemanChef
         if fact_names[name_with_prefix].present?
           fact_name_id = fact_names[name_with_prefix]
         else
-          fact_name_id = fact_name_class.create!(:name      => name_with_prefix,
-                                                 :parent_id => parent,
-                                                 :compose   => compose).id
+          # fact names didn't contain fact_name so we create new one
+          fact_name = fact_name_class.new(:name      => name_with_prefix,
+                                          :parent_id => parent,
+                                          :compose   => compose)
+          if fact_name.save
+            fact_name_id = fact_name.id
+          elsif fact_name.errors[:name].present?
+            # saving could have failed because of raise condition with another import process,
+            # so if the error is on name uniqueness, we try to reload conflicting name and use it
+            conflicting_fact_name = fact_name_class.where(:name => fact_name.name).first
+            fact_name_id = conflicting_fact_name.id
+          else
+            raise FactNameImportError, "unable to save fact name, errors: #{fact_name.errors.full_messages.join("\n")}"
+          end
+          fact_name_id
         end
 
         if compose
