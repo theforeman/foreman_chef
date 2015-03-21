@@ -20,7 +20,7 @@ module ForemanChef
 
     def add_new_facts
       @counters[:added] = 0
-      add_missing_facts(unsparse(original_facts))
+      add_missing_facts(Sparser.new.unsparse(original_facts))
       logger.debug("Merging facts for '#{host}': added #{@counters[:added]} facts")
     end
 
@@ -103,23 +103,25 @@ module ForemanChef
       hash.sort_by { |k, v| k.to_s }
     end
 
-    def sparse(hash, options={})
-      hash.map do |k, v|
-        prefix = (options.fetch(:prefix, [])+[k])
-        next Sparsify::sparse(v, options.merge(:prefix => prefix)) if v.is_a? Hash
-        { prefix.join(options.fetch(:separator, FactName::SEPARATOR)) => v }
-      end.reduce(:merge) || Hash.new
-    end
-
-    def unsparse(hash, options={})
-      ret = Hash.new
-      sparse(hash).each do |k, v|
-        current            = ret
-        key                = k.to_s.split(options.fetch(:separator, FactName::SEPARATOR))
-        current            = (current[key.shift] ||= Hash.new) until (key.size<=1)
-        current[key.first] = v
+    class Sparser
+      def sparse(hash, options={})
+        hash.map do |k, v|
+          prefix = (options.fetch(:prefix, [])+[k])
+          next sparse(v, options.merge(:prefix => prefix)) if v.is_a? Hash
+          { prefix.join(options.fetch(:separator, FactName::SEPARATOR)) => v }
+        end.reduce(:merge) || Hash.new
       end
-      return ret
+
+      def unsparse(hash, options={})
+        ret = Hash.new
+        sparse(hash).each do |k, v|
+          current            = ret
+          key                = k.to_s.split(options.fetch(:separator, FactName::SEPARATOR))
+          current            = (current[key.shift] ||= Hash.new) until (key.size<=1)
+          current[key.first] = v
+        end
+        return ret
+      end
     end
   end
 end
