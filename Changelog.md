@@ -1,3 +1,9 @@
+Version 0.1.3
+* parse attributes to correctly assign OS, Domain, Model, Architecture
+* parse attributes to create and update host interfaces
+* builtin Chef 12 support (validator name configurable, chef server cert installation)
+* fixed race condition on attributes import
+
 Version 0.1.2
 * provide default config templates and global parameters
 
