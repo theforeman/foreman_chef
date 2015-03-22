@@ -1,5 +1,7 @@
 module ForemanChef
   class FactParser < ::FactParser
+    VIRTUAL = /\A([a-z0-9]+)[:.](\d+)\Z/
+    VIRTUAL_NAMES = /#{VIRTUAL}|#{BRIDGES}|#{BONDS}/
 
     def operatingsystem
       os_name = facts['lsb::id'] || facts['platform']
@@ -45,7 +47,9 @@ module ForemanChef
     end
 
     def ipmi_interface
-      raise NotImplementedError, not_implemented_error(__method__)
+      if facts['ipmi::mac_address'].present?
+        { 'ipaddress' => facts['ipmi::address'], 'macaddress' => facts['ipmi::mac_address'] }.with_indifferent_access
+      end
     end
 
     def certname
@@ -53,7 +57,7 @@ module ForemanChef
     end
 
     def support_interfaces_parsing?
-      false
+      true
     end
 
     def parse_interfaces?
@@ -71,14 +75,48 @@ module ForemanChef
     #
     # note that link and macaddress are mandatory
     def get_facts_for_interface(interface)
-      raise NotImplementedError, "parsing interface facts is not supported in #{self.class}"
+      facts = interfaces_hash[interface]
+      hash = {
+        'link' => facts['state'] == 'up',
+        'macaddress' => get_address_by_family(facts['addresses'], 'lladdr'),
+        'ipaddress' => get_address_by_family(facts['addresses'], 'inet'),
+      }
+      hash['tag'] = facts['vlan']['id'] if facts['vlan'].present?
+      hash.with_indifferent_access
     end
 
     # meant to be implemented in inheriting classes
     # should return array of interfaces names, e.g.
     #   ['eth0', 'eth0.0', 'eth1']
     def get_interfaces
-      raise NotImplementedError, "parsing interfaces is not supported in #{self.class}"
+      interfaces_hash.keys
+    end
+
+    def get_address_by_family(addresses, family)
+      addresses.detect { |address, attributes| attributes['family'] == family }.try(:first)
+    end
+
+    def network_hash
+      @network_hash ||= ForemanChef::FactImporter::Sparser.new.unsparse(facts.select { |k, v| k =~ /\Anetwork::interfaces::/})['network']
+    end
+
+    def interfaces_hash
+      @interfaces_hash ||= network_hash['interfaces']
+    end
+
+    # adds attributes like virtual
+    def set_additional_attributes(attributes, name)
+      if name =~ VIRTUAL_NAMES
+        attributes[:virtual] = true
+        if $1.nil? && name =~ BRIDGES
+          attributes[:bridge] = true
+        else
+          attributes[:attached_to] = $1
+        end
+      else
+        attributes[:virtual] = false
+      end
+      attributes
     end
   end
 end
