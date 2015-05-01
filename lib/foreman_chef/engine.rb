@@ -1,4 +1,5 @@
 require 'deface'
+require 'foreman_tasks'
 
 module ForemanChef
   #Inherit from the Rails module of the parent app (Foreman), not the plugin.
