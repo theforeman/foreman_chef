@@ -4,6 +4,18 @@ This plugin adds a Chef fact importer to Foreman. It basically means that when y
 clients to use foreman handlers (https://github.com/theforeman/chef-handler-foreman) and install
 this plugin you receive nested facts from chef-client.
 
+# Installation
+
+If you want to use this in production I recommend to combine this plugin with foreman-background
+(https://github.com/ohadlevy/foreman-background) which runs report and facts import as a background
+tasks.
+
+## Foreman Installer (recommended)
+
+Follow the directions on: http://www.theforeman.org/plugins/foreman_chef/0.1/#2.Installation
+
+## Manual
+
 This plugin expects foreman to support nested facts which is was added in 1.4.
 To install this plugin you just have to add this line to your Gemfile.
 
@@ -12,10 +24,6 @@ gem 'foreman_chef'
 ```
 
 and run ```bundle install```. Don't forget to restart foreman after this change.
-
-If you want to use this in production I recommend to combine this plugin with foreman-background
-(https://github.com/ohadlevy/foreman-background) which runs report and facts import as a background
-tasks.
 
 ##  License
 
