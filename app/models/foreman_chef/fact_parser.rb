@@ -5,7 +5,7 @@ module ForemanChef
 
     def operatingsystem
       os_name = facts['lsb::id'] || facts['platform']
-      release = facts['lsb::release'] || fact['platform_version']
+      release = facts['lsb::release'] || facts['platform_version']
       major, minor = release.split('.')
       description = facts['lsb::description']
       release_name = facts['lsb::codename']
