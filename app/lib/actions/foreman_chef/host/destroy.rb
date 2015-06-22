@@ -15,6 +15,10 @@ module Actions
 
             plan_action Actions::ForemanChef::Client::Destroy, host.name, proxy
           end
+        rescue => e
+          Rails.logger.debug "Unable to communicate with Chef proxy, #{e.message}"
+          Rails.logger.debug e.backtrace.join("\n")
+          raise ::ForemanChef::ProxyException.new(N_('Unable to communicate with Chef proxy, %s' % e.message))
         end
 
         def run
