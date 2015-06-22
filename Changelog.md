@@ -1,3 +1,8 @@
+Version 0.1.4
+* fix operating system facts parsing which failed if no lsb info was present
+* better error handling when deletion of node fails because of chef unavailability
+* fix gem based installation startup
+
 Version 0.1.3
 * parse attributes to correctly assign OS, Domain, Model, Architecture
 * parse attributes to create and update host interfaces
