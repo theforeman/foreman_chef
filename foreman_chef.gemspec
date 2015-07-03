@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 3.2.8"
   s.add_dependency "deface", "< 1.0"
-  s.add_dependency "foreman-tasks", '~> 0.6.9'
+  s.add_dependency "foreman-tasks", '>= 0.6.9', '< 0.8.0'
 
   s.add_development_dependency "sqlite3"
 end
