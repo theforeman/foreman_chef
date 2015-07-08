@@ -26,7 +26,7 @@ module ForemanChef
 
     initializer 'foreman_chef.register_plugin', :after => :finisher_hook do |app|
       Foreman::Plugin.register :foreman_chef do
-        requires_foreman '>= 1.4'
+        requires_foreman '>= 1.9'
         allowed_template_helpers :chef_bootstrap
       end
     end
