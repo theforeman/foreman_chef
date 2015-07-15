@@ -1,3 +1,9 @@
+Version 0.1.6
+* relax deface version restriction
+
+Version 0.1.5
+* relax foreman-tasks version restriction
+
 Version 0.1.4
 * fix operating system facts parsing which failed if no lsb info was present
 * better error handling when deletion of node fails because of chef unavailability
