@@ -48,7 +48,7 @@ module ForemanChef
       ::Hostgroup.send :include, ChefProxyAssociation
       ::SmartProxy.send :include, SmartProxyExtensions
       ::FactImporter.register_fact_importer(:foreman_chef, ForemanChef::FactImporter)
-      ::FactParser.register_fact_importer(:foreman_chef, ForemanChef::FactParser)
+      ::FactParser.register_fact_parser(:foreman_chef, ForemanChef::FactParser)
       ::Host::Base.send :include, ForemanChef::Concerns::HostActionSubject
       ::HostsController.send :include, ForemanChef::Concerns::HostsControllerRescuer
     end
