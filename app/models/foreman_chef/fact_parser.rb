@@ -6,7 +6,12 @@ module ForemanChef
     def operatingsystem
       os_name = facts['lsb::id'] || facts['platform']
       release = facts['lsb::release'] || facts['platform_version']
-      major, minor = release.split('.')
+      # if we have no release information we can't assign OS properly (e.g. missing redhat-lsb)
+      if release.nil?
+        major, minor = 1, nil
+      else
+        major, minor = release.split('.')
+      end
       description = facts['lsb::description']
       release_name = facts['lsb::codename']
 
@@ -17,7 +22,7 @@ module ForemanChef
         klass = Operatingsystem
       end
 
-      args = { :name => os_name, :major => major, :minor => minor }
+      args = { :name => os_name, :major => major.to_s, :minor => minor.to_s }
       klass.where(args).first || klass.new(args.merge(:description => description, :release_name => release_name)).save!
     end
 
