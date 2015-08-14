@@ -11,7 +11,7 @@ templates = [
 
 templates.each do |template|
   template[:template] = File.read(File.join(ForemanChef::Engine.root, "app/views/foreman/unattended", template.delete(:source)))
-  ConfigTemplate.find_or_create_by_name(template).update_attributes(defaults.merge(template))
+  ProvisioningTemplate.find_or_create_by_name(template).update_attributes(defaults.merge(template))
 end
 
 # Global parameters used in configuration snippets
