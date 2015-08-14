@@ -1,3 +1,7 @@
+Version 0.1.7
+* fixed failure when no OS attributes present in fact upload
+* restored compatibility with upcoming Foreman 1.9
+
 Version 0.1.6
 * relax deface version restriction
 
