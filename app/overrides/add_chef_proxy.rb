@@ -14,3 +14,4 @@ Deface::Override.new(:virtual_path => "hostgroups/_form",
 # detected within the full override template string above
 N_('Chef proxy')
 N_('Use this foreman proxy as an entry point to your Chef, node will be managed via this proxy')
+N_('Chef environment')

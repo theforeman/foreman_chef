@@ -13,11 +13,10 @@ module ForemanChef
       def action_input_key
         "host"
       end
-
     end
   end
 end
 
 class ::Host::Managed::Jail < Safemode::Jail
-  allow :chef_proxy
+  allow :chef_proxy, :chef_environment
 end

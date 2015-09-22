@@ -12,6 +12,24 @@ module ForemanChef
       end
     end
 
+    config.autoload_paths += Dir["#{config.root}/app/helpers/concerns"]
+
+    # Precompile any JS or CSS files under app/assets/
+    # If requiring files from each other, list them explicitly here to avoid precompiling the same
+    # content twice.
+    assets_to_precompile =
+      Dir.chdir(root) do
+        Dir['app/assets/javascripts/**/*', 'app/assets/stylesheets/**/*'].map do |f|
+          f.split(File::SEPARATOR, 4).last.gsub(/\.scss\Z/, '')
+        end
+      end
+    initializer 'foreman_chef.assets.precompile' do |app|
+      app.config.assets.precompile += assets_to_precompile
+    end
+    initializer 'foreman_chef.configure_assets', group: :assets do
+      SETTINGS[:foreman_chef] = { assets: { precompile: assets_to_precompile } }
+    end
+
     initializer 'foreman_chef.load_default_settings', :before => :load_config_initializers do
       require_dependency File.expand_path('../../../app/models/setting/foreman_chef.rb', __FILE__) if (Setting.table_exists? rescue(false))
     end
@@ -30,6 +48,18 @@ module ForemanChef
       Foreman::Plugin.register :foreman_chef do
         requires_foreman '>= 1.11'
         allowed_template_helpers :chef_bootstrap
+
+        permission :import_chef_environments, { :environments => [:import, :synchronize] }, :resource_type => 'ForemanChef::Environment'
+        permission :view_chef_environments, { :environments => [:index, :environments_for_chef_proxy] }, :resource_type => 'ForemanChef::Environment'
+        permission :edit_chef_environments, { :environments => [:edit, :update] }, :resource_type => 'ForemanChef::Environment'
+        permission :destroy_chef_environments, { :environments => [:destroy] }, :resource_type => 'ForemanChef::Environment'
+
+        divider :top_menu, :caption => N_('Chef'), :last => true, :parent => :configure_menu
+        menu :top_menu, :chef_environments,
+             url_hash: { controller: 'foreman_chef/environments', action: :index },
+             caption: N_('Environments'),
+             parent: :configure_menu,
+             last: true
       end
     end
 
@@ -44,13 +74,15 @@ module ForemanChef
 
     #Include extensions to models in this config.to_prepare block
     config.to_prepare do
-      ::Host::Managed.send :include, ForemanChef::HostExtensions
-      ::Hostgroup.send :include, ForemanChef::HostgroupExtensions
-      ::Host::Managed.send :include, ChefProxyAssociation
-      ::Hostgroup.send :include, ChefProxyAssociation
-      ::SmartProxy.send :include, SmartProxyExtensions
       ::FactImporter.register_fact_importer(:foreman_chef, ForemanChef::FactImporter)
       ::FactParser.register_fact_parser(:foreman_chef, ForemanChef::FactParser)
+      ::ConfigReportImporter.register_smart_proxy_feature('Chef')
+
+      ::Host::Managed.send :include, ForemanChef::Concerns::HostAndHostgroupExtensions
+      ::Hostgroup.send :include, ForemanChef::Concerns::HostAndHostgroupExtensions
+      ::Host::Managed.send :include, ForemanChef::Concerns::HostExtensions
+      ::Hostgroup.send :include, ForemanChef::Concerns::HostgroupExtensions
+      ::SmartProxy.send :include, ForemanChef::Concerns::SmartProxyExtensions
       ::Host::Base.send :include, ForemanChef::Concerns::HostActionSubject
       ::HostsController.send :include, ForemanChef::Concerns::HostsControllerRescuer
       # Renderer Concern needs to be injected to controllers, ForemanRenderer was already included
@@ -62,5 +94,13 @@ module ForemanChef
     config.after_initialize do
       ::Foreman::Renderer.send :include, ForemanChef::Concerns::Renderer
     end
+  end
+
+  def self.table_name_prefix
+    "foreman_chef_"
+  end
+
+  def use_relative_model_naming
+    true
   end
 end

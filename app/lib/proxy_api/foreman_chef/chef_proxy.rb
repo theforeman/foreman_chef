@@ -17,6 +17,13 @@ module ProxyAPI
         end
       end
 
+      class Environment < ProxyAPI::Resource
+        def initialize(args)
+          @url = "#{args[:url]}/#{PREFIX}/environments"
+          super args
+        end
+      end
+
       def initialize(args)
         @args = args
       end
@@ -47,6 +54,12 @@ module ProxyAPI
       # Returns : Boolean status
       def delete_client(key)
         Client.new(@args).send(:delete, key)
+      end
+
+      # List all Chef environments
+      # Returns : Hash representation of environments on chef server
+      def list_environments
+        Environment.new(@args).send(:get)
       end
     end
   end
