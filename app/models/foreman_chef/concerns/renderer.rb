@@ -9,6 +9,10 @@ module ForemanChef
         raise SecurityError, 'snippet contains not white-listed characters' unless snippet_name =~ /\A[a-zA-Z0-9 _-]+\Z/
         snippet snippet_name
       end
+
+      def validation_bootstrap_method?
+        ::Setting::ForemanChef.validate_bootstrap_method
+      end
     end
   end
 end
