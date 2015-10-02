@@ -77,6 +77,10 @@ module ForemanChef
 
     private
 
+    def logger
+      Foreman::Logging.logger('foreman_chef')
+    end
+
     # meant to be implemented in inheriting classes
     # should return hash with indifferent access in following format:
     # { 'link': 'true',

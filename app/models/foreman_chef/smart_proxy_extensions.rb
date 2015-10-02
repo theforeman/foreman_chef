@@ -7,7 +7,7 @@ module ForemanChef
       reply = ProxyAPI::ForemanChef::ChefProxy.new(:url => url).show_node(fqdn)
       JSON.parse(reply)
     rescue RestClient::ResourceNotFound
-      logger.debug "Node '#{fqdn}' not found"
+      Foreman::Logging.logger('foreman_chef').debug "Node '#{fqdn}' not found"
       return false
     end
 
@@ -23,7 +23,7 @@ module ForemanChef
       reply = ProxyAPI::ForemanChef::ChefProxy.new(:url => url).show_client(fqdn)
       JSON.parse(reply)
     rescue RestClient::ResourceNotFound
-      logger.debug "Client '#{fqdn}' not found"
+      Foreman::Logging.logger('foreman_chef').debug "Client '#{fqdn}' not found"
       return false
     end
 

@@ -18,6 +18,10 @@ module ForemanChef
 
     attr_accessor :original_facts
 
+    def logger
+      Foreman::Logging.logger('foreman_chef')
+    end
+
     def add_new_facts
       @counters[:added] = 0
       add_missing_facts(Sparser.new.unsparse(original_facts))
