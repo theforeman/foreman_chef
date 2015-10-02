@@ -1,9 +1,7 @@
 # ForemanChef
 
-This plugin adds a Chef fact importer to Foreman. It basically means that when you setup your chef
-clients to use foreman handlers (https://github.com/theforeman/chef-handler-foreman) and install
-this plugin you receive nested facts from chef-client. You can find all information 
-[in the plugin manual](http://www.theforeman.org/plugins/foreman_chef/0.1)
+This plugin adds a Chef support to Foreman. You can find all information 
+[in the plugin manual](http://www.theforeman.org/plugins/foreman_chef/0.2)
 
 # Installation
 
@@ -11,18 +9,19 @@ There are two ways to install the plugin:
 
 ## Foreman Installer (recommended)
 
-Follow the instructions on: http://www.theforeman.org/plugins/foreman_chef/0.1/#2.Installation
+Follow the instructions on: http://www.theforeman.org/plugins/foreman_chef/0.2/#2.Installation
 
 ## Manual
 
-This plugin expects foreman to support nested facts which is was added in 1.4.
 To install this plugin you just have to add this line to your Gemfile.
 
 ```ruby
 gem 'foreman_chef'
 ```
 
-and run ```bundle install```. Don't forget to restart foreman after this change.
+and run ```bundle install```. Don't forget to restart foreman after this change. You also have
+to run migrations and seed. Note that this plugin requires also plugin on smart proxy and chef-handler-foreman
+on client side.
 
 ##  License
 

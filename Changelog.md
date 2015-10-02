@@ -1,3 +1,8 @@
+Version 0.2.0
+* change internals so Foreman 1.9+ is required
+* improved Windows facts parsing
+* fixed an issue of importing new OS based on facts
+
 Version 0.1.7
 * fixed failure when no OS attributes present in fact upload
 * restored compatibility with upcoming Foreman 1.9
