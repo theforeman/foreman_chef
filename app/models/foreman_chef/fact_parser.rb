@@ -12,8 +12,14 @@ module ForemanChef
       else
         major, minor = release.split('.')
       end
-      description = facts['lsb::description']
-      release_name = facts['lsb::codename']
+
+      if facts['platform'] == 'windows'
+        release_name = facts['kernel::name']
+        os_name = os_name.capitalize
+      else
+        description = facts['lsb::description']
+        release_name = facts['lsb::codename']
+      end
 
       begin
         klass = os_name.constantize
