@@ -23,7 +23,7 @@ module ForemanChef
       end
 
       args = { :name => os_name, :major => major.to_s, :minor => minor.to_s }
-      klass.where(args).first || klass.new(args.merge(:description => description, :release_name => release_name)).save!
+      klass.where(args).first || klass.new(args.merge(:description => description, :release_name => release_name)).tap(&:save!)
     end
 
     def environment
