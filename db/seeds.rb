@@ -1,4 +1,4 @@
-Feature.find_or_create_by_name('Chef')
+Feature.where(:name => 'Chef').first_or_create
 
 # Configuration template snippets
 defaults = {:vendor => "ForemanChef", :default => true, :locked => true}
@@ -11,7 +11,7 @@ templates = [
 
 templates.each do |template|
   template[:template] = File.read(File.join(ForemanChef::Engine.root, "app/views/foreman/unattended", template.delete(:source)))
-  ProvisioningTemplate.find_or_create_by_name(template).update_attributes(defaults.merge(template))
+  ProvisioningTemplate.where(:name => template[:name]).first_or_create.update_attributes(defaults.merge(template))
 end
 
 # Global parameters used in configuration snippets

@@ -17,7 +17,9 @@ module ForemanChef
     end
 
     initializer "foreman_chef.load_app_instance_data" do |app|
-      app.config.paths['db/migrate'] += ForemanChef::Engine.paths['db/migrate'].existent
+      ForemanChef::Engine.paths['db/migrate'].existent.each do |path|
+        app.config.paths['db/migrate'] << path
+      end
     end
 
     initializer "foreman_chef.register_paths" do |app|
@@ -26,7 +28,7 @@ module ForemanChef
 
     initializer 'foreman_chef.register_plugin', :after => :finisher_hook do |app|
       Foreman::Plugin.register :foreman_chef do
-        requires_foreman '>= 1.9'
+        requires_foreman '>= 1.11.0'
         allowed_template_helpers :chef_bootstrap
       end
     end
