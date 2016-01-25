@@ -17,7 +17,9 @@ module ForemanChef
     end
 
     initializer "foreman_chef.load_app_instance_data" do |app|
-      app.config.paths['db/migrate'] += ForemanChef::Engine.paths['db/migrate'].existent
+      ForemanChef::Engine.paths['db/migrate'].existent.each do |path|
+        app.config.paths['db/migrate'] << path
+      end
     end
 
     initializer "foreman_chef.register_paths" do |app|
