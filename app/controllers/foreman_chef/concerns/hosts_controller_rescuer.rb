@@ -7,13 +7,11 @@ module ForemanChef
         rescue_from ForemanChef::ProxyException, :with => :chef_exception
       end
 
-      module InstanceMethods
-        private
+      private
 
-        def chef_exception(exception)
-          flash[:error] = _(exception.message)
-          redirect_to :back
-        end
+      def chef_exception(exception)
+        flash[:error] = _(exception.message)
+        redirect_to :back
       end
     end
   end
