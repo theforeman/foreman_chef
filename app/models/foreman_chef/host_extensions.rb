@@ -4,7 +4,6 @@ module ForemanChef
 
     included do
       alias_method_chain :set_hostgroup_defaults, :chef_proxy
-      attr_accessible :chef_proxy_id
     end
 
     def set_hostgroup_defaults_with_chef_proxy
