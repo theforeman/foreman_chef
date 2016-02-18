@@ -53,6 +53,10 @@ module ForemanChef
       ::FactParser.register_fact_parser(:foreman_chef, ForemanChef::FactParser)
       ::Host::Base.send :include, ForemanChef::Concerns::HostActionSubject
       ::HostsController.send :include, ForemanChef::Concerns::HostsControllerRescuer
+      # Renderer Concern needs to be injected to controllers, ForemanRenderer was already included
+      (TemplatesController.descendants + [TemplatesController]).each do |klass|
+        klass.send(:include, ForemanChef::Concerns::Renderer)
+      end
     end
 
     config.after_initialize do
