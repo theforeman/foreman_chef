@@ -1,3 +1,10 @@
+Version 0.2.2
+* restore compatibility with Foreman < 1.11
+
+Version 0.2.1
+* bootstrapping on debian fixed
+* logging of orchestration fixed
+
 Version 0.2.0
 * change internals so Foreman 1.9+ is required
 * improved Windows facts parsing
