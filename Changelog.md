@@ -1,3 +1,8 @@
+Version 0.3.0
+
+* configuration of Chef environment for a host
+* compatibility with Foreman 1.11+ (Rails 4)
+
 Version 0.2.0
 * change internals so Foreman 1.9+ is required
 * improved Windows facts parsing
