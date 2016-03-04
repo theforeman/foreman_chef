@@ -1,0 +1,11 @@
+<%= form_for @environment, :url => (@environment.new_record? ? foreman_chef_environments_path : foreman_chef_environment_path(:id => @environment)) do |f| %>
+  <%= base_errors_for @environment %>
+
+  <%= text_f f, :name %>
+  <%= select_f f, :chef_proxy_id, SmartProxy.with_features('Chef'), :id, :name,
+               {},
+               { :label => _('Chef proxy'), :help_inline => popover('Chef proxy association', _('When you select this proxy in host or host group form,<br>all associated environments will be loaded into environment select box')) } %>
+  <%= textarea_f f, :description, :rows => 3 %>
+
+  <%= submit_or_cancel f, false, :cancel_path => foreman_chef_environments_path %>
+<% end %>

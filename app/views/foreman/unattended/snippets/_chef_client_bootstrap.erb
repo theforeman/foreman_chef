@@ -43,7 +43,8 @@ EOF
 
 #first run of chef-client
 echo "First run of chef-client"
-/usr/local/bin/chef-client -j /tmp/base.json || /usr/bin/chef-client -j /tmp/base.json
+<% chef_args = "-j /tmp/base.json -E #{@host.chef_environment.nil? ? '_default' : @host.chef_environment.name }" -%>
+/usr/local/bin/chef-client <%= chef_args %> || /usr/bin/chef-client <%= chef_args %>
 
 echo "Finished, cleaning"
 rm -f /tmp/base.json
