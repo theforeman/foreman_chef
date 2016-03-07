@@ -19,7 +19,7 @@ module ForemanChef
     scoped_search :in => :chef_proxy, :on => :name, :complete_value => true, :rename => 'chef_proxy.name'
 
     class Jail < Safemode::Jail
-      allow :name
+      allow :name, :nil?
     end
 
     def self.humanize_class_name(_name = nil)
