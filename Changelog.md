@@ -1,3 +1,8 @@
+Version 0.3.1
+
+* fixed rendering issue with safe_mode enabled
+* fixed an issue with environment select box being empty
+
 Version 0.3.0
 
 * configuration of Chef environment for a host
