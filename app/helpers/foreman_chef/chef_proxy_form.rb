@@ -5,7 +5,7 @@ module ForemanChef
       # so the user can choose not to use puppet on this host
       proxies = SmartProxy.with_taxonomy_scope_override(@location,@organization).with_features('Chef')
       return if proxies.count == 0
-      javascript('chef_proxy_environment_refresh')
+      javascript('foreman_chef/chef_proxy_environment_refresh')
 
       chef_proxy_form_chef_proxy_select(f, proxies) +
         chef_proxy_form_chef_environment_select(f, f.object.available_chef_environments)

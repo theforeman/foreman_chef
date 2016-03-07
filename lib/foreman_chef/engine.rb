@@ -5,6 +5,7 @@ module ForemanChef
   #Inherit from the Rails module of the parent app (Foreman), not the plugin.
   #Thus, inhereits from ::Rails::Engine and not from Rails::Engine
   class Engine < ::Rails::Engine
+    engine_name 'foreman_chef'
 
     rake_tasks do
       Rake::Task['db:seed'].enhance do
