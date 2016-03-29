@@ -5,6 +5,10 @@ module Actions
     module Host
       class Destroy < Actions::EntryAction
 
+        def resource_locks
+          :link
+        end
+
         def plan(host)
           action_subject(host)
           if (::Setting::ForemanChef.auto_deletion && proxy = host.chef_proxy)

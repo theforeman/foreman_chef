@@ -16,6 +16,13 @@ module ForemanChef
         return false
       end
 
+      def update_node(fqdn, attributes)
+        begin
+          reply = ProxyAPI::ForemanChef::ChefProxy.new(:url => url).update_node(fqdn, attributes)
+          JSON.parse(reply)
+        end
+      end
+
       def delete_node(fqdn)
         begin
           reply = ProxyAPI::ForemanChef::ChefProxy.new(:url => url).delete_node(fqdn)

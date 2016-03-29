@@ -62,7 +62,8 @@ module ForemanChef
              parent: :configure_menu,
              last: true
 
-        parameter_filter Host::Managed, :chef_private_key, :chef_proxy_id, :chef_environment_id
+        parameter_filter ForemanChef::CachedRunList, :type, :name
+        parameter_filter Host::Managed, :chef_private_key, :chef_proxy_id, :override_runlist, :chef_environment_id, :run_list => [ parameter_filters(ForemanChef::CachedRunList) ]
         parameter_filter Hostgroup, :chef_proxy_id, :chef_environment_id
       end
     end
@@ -91,7 +92,7 @@ module ForemanChef
       ::Host::Managed.send :include, ForemanChef::Concerns::HostBuild
       ::HostsController.send :include, ForemanChef::Concerns::HostsControllerRescuer
       # Renderer Concern needs to be injected to controllers, ForemanRenderer was already included
-      (TemplatesController.descendants + [TemplatesController]).each do |klass|
+      (TemplatesController.descendants + [TemplatesController, Host::Managed]).each do |klass|
         klass.send(:include, ForemanChef::Concerns::Renderer)
       end
     end
