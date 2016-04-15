@@ -1,12 +1,17 @@
+<% if validation_bootstrap_method? -%>
 echo "Creating validation.pem"
 mkdir /etc/chef
 touch /etc/chef/validation.pem
 chmod 600 /etc/chef/validation.pem
 
-## You need to paste here foreman's private key
 cat << 'EOF' > /etc/chef/validation.pem
 <%= @host.params['chef_validation_private_key'] %>
 EOF
+<% else -%>
+cat << 'EOF' > /etc/chef/client.pem
+<%= @host.chef_private_key %>
+EOF
+<% end -%>
 
 ## If chef_server_certificate is present, install it into /etc/chef/trusted_certs
 <% chef_server_certificate = @host.params['chef_server_certificate'] -%>

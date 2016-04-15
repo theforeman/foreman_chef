@@ -43,14 +43,21 @@ module ProxyAPI
       end
 
       # Shows a Chef Client entry
-      # [+key+] : String containing the hostname
-      # Returns : Hash representation of host on chef server
+      # [+key+] : String containing the client name
+      # Returns : Hash representation of client on chef server
       def show_client(key)
         Client.new(@args).send(:get, key)
       end
 
+      # Creates a Chef Client entry
+      # [+key+] : String containing the client name
+      # Returns : Hash representation of client on chef server
+      def create_client(key)
+        Client.new(@args).send(:post, :client => {:name => key})
+      end
+
       # Deletes a Chef Client entry
-      # [+key+] : String containing the hostname
+      # [+key+] : String containing the client name
       # Returns : Boolean status
       def delete_client(key)
         Client.new(@args).send(:delete, key)

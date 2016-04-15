@@ -5,6 +5,7 @@ module ForemanChef
 
       included do
         alias_method_chain :set_hostgroup_defaults, :chef_attributes
+        attr_accessible :chef_private_key
       end
 
       def set_hostgroup_defaults_with_chef_attributes

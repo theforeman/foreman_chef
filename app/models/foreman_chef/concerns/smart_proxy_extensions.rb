@@ -32,6 +32,13 @@ module ForemanChef
         return false
       end
 
+      def create_client(fqdn)
+        begin
+          reply = ProxyAPI::ForemanChef::ChefProxy.new(:url => url).create_client(fqdn)
+          JSON.parse(reply)
+        end
+      end
+
       def delete_client(fqdn)
         begin
           reply = ProxyAPI::ForemanChef::ChefProxy.new(:url => url).delete_client(fqdn)

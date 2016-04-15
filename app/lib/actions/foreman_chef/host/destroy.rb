@@ -7,7 +7,7 @@ module Actions
 
         def plan(host)
           action_subject(host)
-          if (::Setting::ForemanChef.auto_deletion && proxy = ::SmartProxy.find_by_id(host.chef_proxy_id))
+          if (::Setting::ForemanChef.auto_deletion && proxy = host.chef_proxy)
             node_exists_in_chef = proxy.show_node(host.name)
             if node_exists_in_chef
               plan_self :chef_proxy_id => host.chef_proxy_id
