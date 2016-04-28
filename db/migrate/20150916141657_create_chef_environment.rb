@@ -2,7 +2,7 @@ class CreateChefEnvironment < ActiveRecord::Migration
   def up
     create_table :foreman_chef_environments do |t|
       t.string :name, :default => '', :null => false
-      t.text :description, :default => ''
+      t.text :description
       t.integer :chef_proxy_id, :null => false
       t.timestamps
     end
