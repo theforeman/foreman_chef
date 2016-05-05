@@ -1,4 +1,4 @@
-$(function () {
+$(document).on('ContentLoad', function (){
   $("#host_chef_proxy_id, #hostgroup_chef_proxy_id").change(function () {
     var element = $(this);
     var attrs = attribute_hash(['chef_proxy_id']);
@@ -23,4 +23,3 @@ $(function () {
     });
   });
 });
-
