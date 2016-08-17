@@ -45,7 +45,8 @@ module ForemanChef
       ForemanTasks.dynflow.config.eager_load_paths.concat(%W[#{ForemanChef::Engine.root}/app/lib/actions])
     end
 
-    initializer 'foreman_chef.register_plugin', :after => :finisher_hook do |app|
+    # needed because of #15256, required for 1.13 compatibility
+    initializer 'foreman_chef.register_plugin', :before => :finisher_hook do |app|
       Foreman::Plugin.register :foreman_chef do
         requires_foreman '>= 1.11'
         allowed_template_helpers :chef_bootstrap, :validation_bootstrap_method?
