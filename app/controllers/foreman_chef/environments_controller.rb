@@ -1,6 +1,8 @@
 module ForemanChef
   class EnvironmentsController < ::ForemanChef::ApplicationController
     include Foreman::Controller::AutoCompleteSearch
+    include ForemanChef::Concerns::EnvironmentParameters
+
     before_filter :find_resource, :only => [:edit, :update, :destroy]
 
     def import
@@ -34,7 +36,7 @@ module ForemanChef
     end
 
     def create
-      @environment = ForemanChef::Environment.new(params[:foreman_chef_environment])
+      @environment = ForemanChef::Environment.new(environment_params)
       if @environment.save
         process_success
       else
@@ -46,7 +48,7 @@ module ForemanChef
     end
 
     def update
-      if @environment.update_attributes(params[:foreman_chef_environment])
+      if @environment.update_attributes(environment_params)
         process_success
       else
         process_error
