@@ -9,8 +9,6 @@ module ForemanChef
     has_many :hostgroups, :class_name => '::Hostgroup'
     belongs_to :chef_proxy, :class_name => '::SmartProxy'
 
-    attr_accessible :name, :description, :chef_proxy_id
-
     validates :name, :uniqueness => true, :presence => true, :format => { :with => /\A[\w\d\.]+\z/, :message => N_('is alphanumeric and cannot contain spaces') }
 
     scoped_search :on => :name, :complete_value => true

@@ -45,9 +45,9 @@ module ForemanChef
       ForemanTasks.dynflow.config.eager_load_paths.concat(%W[#{ForemanChef::Engine.root}/app/lib/actions])
     end
 
-    initializer 'foreman_chef.register_plugin', :after => :finisher_hook do |app|
+    initializer 'foreman_chef.register_plugin', :before => :finisher_hook do |app|
       Foreman::Plugin.register :foreman_chef do
-        requires_foreman '>= 1.11'
+        requires_foreman '>= 1.13'
         allowed_template_helpers :chef_bootstrap, :validation_bootstrap_method?
 
         permission :import_chef_environments, { :environments => [:import, :synchronize] }, :resource_type => 'ForemanChef::Environment'
@@ -61,6 +61,9 @@ module ForemanChef
              caption: N_('Environments'),
              parent: :configure_menu,
              last: true
+
+        parameter_filter Host::Managed, :chef_private_key, :chef_proxy_id, :chef_environment_id
+        parameter_filter Hostgroup, :chef_proxy_id, :chef_environment_id
       end
     end
 

@@ -7,7 +7,7 @@
                                                                         {:class => 'btn btn-default', :"data-no-turbolink" => true})
                                            end.flatten)
    ) %>
-<% title_actions button_group(display_link_if_authorized(_('New Chef Environment'), hash_for_new_foreman_chef_environment_path)) %>
+<% title_actions button_group(new_link(_('New Chef Environment'))) %>
 
 <table class="table table-bordered table-striped">
   <tr>
