@@ -1,3 +1,11 @@
+Version 0.4.0
+
+* selectable bootstrap method allowing to keep chef client private keys in Foreman
+* supporting host rebuilds and environment configuration via provisioning template
+* restored compatibility with Foreman 1.13 which is now minimal required version
+* fixed JS for environment control after host form refresh
+* fixed migration to work also with MySQL
+
 Version 0.3.1
 
 * fixed rendering issue with safe_mode enabled
