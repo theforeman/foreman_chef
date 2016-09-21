@@ -9,7 +9,7 @@ $(document).on('ContentLoad', function (){
       attrs['type'] = 'hostgroup'
     }
 
-    foreman.tools.showSpinner();
+    tfm.tools.showSpinner();
     $.ajax({
       data: attrs,
       type: 'get',
