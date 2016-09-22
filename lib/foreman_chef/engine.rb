@@ -20,7 +20,7 @@ module ForemanChef
     # content twice.
     assets_to_precompile =
       Dir.chdir(root) do
-        Dir['app/assets/javascripts/**/*', 'app/assets/stylesheets/**/*'].map do |f|
+        Dir['app/assets/javascripts/**/*', 'app/assets/stylesheets/**/*', 'app/assets/images/**/*'].map do |f|
           f.split(File::SEPARATOR, 4).last.gsub(/\.scss\Z/, '')
         end
       end
