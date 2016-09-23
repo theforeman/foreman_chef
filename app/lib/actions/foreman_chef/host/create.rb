@@ -32,8 +32,10 @@ module Actions
         # end
 
         def finalize
-          if input[:create_action_output][:private_key].present?
-            ::Host.find(self.input[:host][:id]).update_attribute(:chef_private_key, input[:create_action_output][:private_key])
+          if input[:create_action_output][:private_key].present? && Setting.validation_bootstrap_method
+            host = ::Host.find(self.input[:host][:id])
+            host.chef_private_key = input[:create_action_output][:private_key]
+            host.disable_dynflow_hooks { |h| h.save! }
           end
         end
 
