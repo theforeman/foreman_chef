@@ -32,9 +32,9 @@ module ForemanChef
       klass.where(args).first || klass.new(args.merge(:description => description, :release_name => release_name)).tap(&:save!)
     end
 
+    # we don't want to parse puppet environment, foreman_chef already has its own environment
     def environment
-      name = facts['environment'] || Setting[:default_puppet_environment]
-      Environment.where(:name => name).first_or_create
+      nil
     end
 
     def architecture
