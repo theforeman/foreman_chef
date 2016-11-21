@@ -8,7 +8,7 @@ module ForemanChef
       end
 
       def inherited_attributes_with_chef_attributes
-        inherited_attributes_without_openscap.concat(%w(chef_proxy_id chef_environment_id))
+        inherited_attributes_without_chef_attributes.concat(%w(chef_proxy_id chef_environment_id))
       end
     end
   end
