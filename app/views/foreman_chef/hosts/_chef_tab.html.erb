@@ -4,14 +4,14 @@
 
   <% if f.object.persisted? && f.object.run_list_differs? %>
     <%= alert(:class => 'alert-warning', :header => 'Warning',
-              :text => _('Run list on chef server differs, by submitting the form, you will override the run list there. ') +
+              :text => _('Run list on chef server differs, by submitting the form, you will override the run list there. ').html_safe +
                   link_to(_('Reset'), '#', :class => 'refresh_run_list', :'data-run-list' => (f.object.fresh_run_list.try(:to_form_json) || '[]')) +
-                  _(' to run list from chef-server')) %>
+                  _(' to run list from chef-server').html_safe) %>
   <% end %>
 
   <div id="runlist-editor" data-default="<%= f.object.run_list.to_form_json %>">
 
   </div>
 
-  <%= f.hidden_field(:override_runlist, :value => true) %>
+  <%= f.hidden_field(:override_chef_attributes, :value => true) %>
 </div>

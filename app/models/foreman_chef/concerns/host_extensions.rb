@@ -10,7 +10,7 @@ module ForemanChef
 
         # even with autosave, save is called only if there's some change in attributes
         has_one :cached_run_list, :autosave => true, :class_name => 'ForemanChef::CachedRunList', :foreign_key => :host_id
-        attr_accessor :override_runlist
+        attr_accessor :override_chef_attributes
       end
 
       def run_list
@@ -31,23 +31,46 @@ module ForemanChef
       end
 
       def run_list_differs?
-        fresh_run_list.try(:list) != self.run_list.try(:list)
+        self.run_list.try(:list) != fresh_run_list.try(:list)
       end
 
       def fresh_run_list
-        @fresh_run_list ||= fresh_run_list!
+        data = fresh_run_list_data
+        @fresh_run_list ||= ForemanChef::CachedRunList.parse(data) unless data.nil?
       end
 
       def fresh_run_list_data
-        if self.chef_proxy && (data = self.chef_proxy.show_node(self.name))
+        if (data = load_node_data)
           data['run_list']
         else
           nil
         end
       end
 
+      def chef_environment_differs?
+        self.chef_environment.try(:name) != fresh_chef_environment
+      end
+
+      def fresh_chef_environment
+        if (data = load_node_data)
+          data['chef_environment']
+        else
+          nil
+        end
+      end
+
+      def differs?
+        run_list_differs? || chef_environment_differs?
+      end
+
       def inherited_attributes_with_chef_attributes
         inherited_attributes_without_chef_attributes.concat(%w(chef_proxy_id chef_environment_id))
+      end
+
+      private
+
+      def load_node_data
+        self.chef_proxy && self.chef_proxy.show_node(self.name)
       end
     end
   end

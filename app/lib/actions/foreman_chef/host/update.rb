@@ -13,7 +13,7 @@ module Actions
           if host.chef_proxy
             node_exists_in_chef = host.chef_proxy.show_node(host.name)
 
-            if node_exists_in_chef && host.override_runlist
+            if node_exists_in_chef && host.override_chef_attributes
               plan_action Actions::ForemanChef::Node::Update, host, host.chef_proxy
             end
           end

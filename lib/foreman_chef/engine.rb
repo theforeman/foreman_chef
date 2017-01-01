@@ -63,7 +63,7 @@ module ForemanChef
              last: true
 
         parameter_filter ForemanChef::CachedRunList, :type, :name
-        parameter_filter Host::Managed, :chef_private_key, :chef_proxy_id, :override_runlist, :chef_environment_id, :run_list => [ parameter_filters(ForemanChef::CachedRunList) ]
+        parameter_filter Host::Managed, :chef_private_key, :chef_proxy_id, :override_chef_attributes, :chef_environment_id, :run_list => [ parameter_filters(ForemanChef::CachedRunList) ]
         parameter_filter Hostgroup, :chef_proxy_id, :chef_environment_id
       end
     end
