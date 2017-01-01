@@ -3,6 +3,10 @@ module Actions
     module Host
       class Create < Actions::EntryAction
 
+        def resource_locks
+          :link
+        end
+
         def plan(host)
           action_subject(host)
 
@@ -27,10 +31,6 @@ module Actions
           raise ::ForemanChef::ProxyException.new(N_('Unable to communicate with Chef proxy, %s' % e.message))
         end
 
-        # def run
-        #   # TODO create node with runlist?
-        # end
-
         def finalize
           if input[:create_action_output][:private_key].present? && Setting.validation_bootstrap_method
             host = ::Host.find(self.input[:host][:id])
@@ -40,7 +40,7 @@ module Actions
         end
 
         def humanized_name
-          _("Create node")
+          _("Create host")
         end
 
         def humanized_input

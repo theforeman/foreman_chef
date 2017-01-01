@@ -30,9 +30,17 @@ module ProxyAPI
 
       # Shows a Chef Node entry
       # [+key+] : String containing the hostname
-      # Returns : Hash representation of host on chef server
+      # Returns : Hash representation of node on chef server
       def show_node(key)
         Node.new(@args).send(:get, key)
+      end
+
+      # Updates a Chef Node entry
+      # [+key+] : String containing the hostname
+      # [+attributes+] : Hash containing attributes
+      # Returns : Hash representation of node on chef server
+      def update_node(key, attributes)
+        Node.new(@args).send(:put, { :node => attributes }, key )
       end
 
       # Deletes a Chef Node entry

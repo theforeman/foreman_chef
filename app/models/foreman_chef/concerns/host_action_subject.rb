@@ -10,6 +10,11 @@ module ForemanChef
         ::Actions::ForemanChef::Host::Create
       end
 
+      def update_action
+        sync_action!
+        ::Actions::ForemanChef::Host::Update
+      end
+
       def destroy_action
         sync_action!
         ::Actions::ForemanChef::Host::Destroy

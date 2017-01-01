@@ -1,14 +1,18 @@
-<% if validation_bootstrap_method? -%>
-echo "Creating validation.pem"
 mkdir /etc/chef
-touch /etc/chef/validation.pem
-chmod 600 /etc/chef/validation.pem
+<% if validation_bootstrap_method? -%>
+  echo "Creating validation.pem"
+  touch /etc/chef/validation.pem
+  chmod 600 /etc/chef/validation.pem
 
-cat << 'EOF' > /etc/chef/validation.pem
+  cat << 'EOF' > /etc/chef/validation.pem
 <%= @host.params['chef_validation_private_key'] %>
 EOF
 <% else -%>
-cat << 'EOF' > /etc/chef/client.pem
+  echo "Creating client.pem"
+  touch /etc/chef/client.pem
+  chmod 600 /etc/chef/client.pem
+
+  cat << 'EOF' > /etc/chef/client.pem
 <%= @host.chef_private_key %>
 EOF
 <% end -%>
@@ -41,9 +45,7 @@ EOF
 
 # You may set here the default run list for all your nodes
 cat << 'EOF' > /tmp/base.json
-{
-"run_list": ["role[default]"]
-}
+<%= @host.run_list.to_chef_json %>
 EOF
 
 #first run of chef-client
