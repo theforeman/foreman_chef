@@ -12,9 +12,16 @@ module ForemanChef
     end
 
     def chef_proxy_form_chef_environment_select(f, environments)
+      if f.object.is_a?(Host::Base) &&f.object.persisted? && f.object.chef_environment_differs?
+        help = content_tag(:span, ' ', :class => 'pficon pficon-warning-triangle-o') + ' ' + _('Chef environment is set to %s on Chef server, submitting will override it') % f.object.fresh_chef_environment
+        help = help.html_safe
+      else
+        help = nil
+      end
+
       select_f(f, :chef_environment_id, environments, :id, :name,
                {:include_blank => blank_or_inherit_f(f, :chef_environment_id)},
-               {:label => _("Chef environment")})
+               {:label => _("Chef environment"), :help_inline => help })
     end
 
     def chef_proxy_form_chef_proxy_select(f, proxies)
