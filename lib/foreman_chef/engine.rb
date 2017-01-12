@@ -87,7 +87,7 @@ module ForemanChef
       ::Host::Managed.send :include, ForemanChef::Concerns::HostExtensions
       ::Hostgroup.send :include, ForemanChef::Concerns::HostgroupExtensions
       ::SmartProxy.send :include, ForemanChef::Concerns::SmartProxyExtensions
-      ::Host::Base.send :include, ForemanChef::Concerns::HostActionSubject
+      ::Host::Managed.send :include, ForemanChef::Concerns::HostActionSubject
       ::Host::Managed.send :include, ForemanChef::Concerns::HostBuild
       ::HostsController.send :include, ForemanChef::Concerns::HostsControllerRescuer
     end
