@@ -5,7 +5,7 @@ mkdir /etc/chef
   chmod 600 /etc/chef/validation.pem
 
   cat << 'EOF' > /etc/chef/validation.pem
-<%= @host.params['chef_validation_private_key'] %>
+<%= host_param('chef_validation_private_key') %>
 EOF
 <% else -%>
   echo "Creating client.pem"
@@ -18,7 +18,7 @@ EOF
 <% end -%>
 
 ## If chef_server_certificate is present, install it into /etc/chef/trusted_certs
-<% chef_server_certificate = @host.params['chef_server_certificate'] -%>
+<% chef_server_certificate = host_param('chef_server_certificate') -%>
 <% if !chef_server_certificate.nil? && !chef_server_certificate.empty? -%>
 mkdir -p /etc/chef/trusted_certs
 chmod 0755 /etc/chef/trusted_certs
@@ -31,14 +31,14 @@ echo "Configuring chef client.rb"
 cat << 'EOF' > /etc/chef/client.rb
 log_level        :info
 log_location     STDOUT
-chef_server_url  "<%= @host.params['chef_server_url'] %>"
-validation_client_name "<%= @host.params['chef_validator_name'] -%>"
+chef_server_url  "<%= host_param('chef_server_url') %>"
+validation_client_name "<%= host_param('chef_validator_name') -%>"
 file_backup_path   "/var/lib/chef"
 file_cache_path    "/var/cache/chef"
 pid_file           "/var/run/chef/client.pid"
 
 require 'chef_handler_foreman'
-foreman_server_options  :url => "<%= @host.params['chef_handler_foreman_url'] %>"
+foreman_server_options  :url => "<%= host_param('chef_handler_foreman_url') %>"
 foreman_facts_upload    true
 foreman_reports_upload  true
 foreman_enc             true
