@@ -1,0 +1,25 @@
+<%#
+name: Run chef-client once
+job_category: Chef
+description_format: "%{template_name}"
+snippet: false
+template_inputs:
+- name: log-level
+  required: true
+  input_type: user
+  description: Set the log level (auto, debug, info, warn, error, fatal)
+  options: "auto\r\ndebug\r\ninfo\r\nwarn\r\nerror\r\nfatal"
+  advanced: true
+- name: why-run
+  required: true
+  input_type: user
+  description: Enable whyrun mode
+  options: "no\r\nyes"
+  advanced: true
+provider_type: SSH
+kind: job_template
+%>
+
+chef-client --once \
+<%= ' --why-run' if input('why-run') == 'yes' -%>
+<%= " --log_level #{input('log-level')}" if input('log-level') && input('log-level') != 'auto' -%>
