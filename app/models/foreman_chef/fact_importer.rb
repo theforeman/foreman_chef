@@ -1,5 +1,5 @@
 module ForemanChef
-  class FactImporter < ::FactImporter
+  class FactImporter < ::StructuredFactImporter
     class FactNameImportError < StandardError; end
 
     def fact_name_class
@@ -71,7 +71,7 @@ module ForemanChef
     end
 
     def facts_to_create
-      @facts_to_create ||= facts.keys - db_facts.keys
+      @facts_to_create ||= facts.keys - db_facts.pluck('fact_names.name')
     end
 
     def fact_names
@@ -101,10 +101,6 @@ module ForemanChef
         end
       end
       new_facts
-    end
-
-    def sort_by_key(hash)
-      hash.sort_by { |k, v| k.to_s }
     end
 
     class Sparser
