@@ -1,3 +1,15 @@
+Version 0.4.1
+
+* Start using chef environment which prevents mismatches with puppet environments
+* Node Run list can be managed from Foreman UI
+* Node chef environment can be managed from Foreman UI
+* Node and client are deleted upon Host deletion
+* Bootstrap method can be selected
+* Fixed chef templates previewing
+* Fix few incompatibilities with Foreman 1.13
+* Restore compatibility with foreman_discovery
+* Add facts origin which should display chef icon in facts list with Foreman 1.14+
+
 Version 0.4.0
 
 * selectable bootstrap method allowing to keep chef client private keys in Foreman
