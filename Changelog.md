@@ -1,3 +1,7 @@
+Version 0.4.2
+
+* Move assets under right namespace, required for rpm package
+
 Version 0.4.1
 
 * Start using chef environment which prevents mismatches with puppet environments
