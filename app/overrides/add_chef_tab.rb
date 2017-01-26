@@ -1,7 +1,7 @@
 Deface::Override.new(:virtual_path => "hosts/_form",
                      :name => "add_chef_tab",
                      :insert_before => 'li#network_tab',
-                     :text => ("<%= chef_tab_menu %>")
+                     :text => ("<%= chef_tab_menu(f.object) %>")
 )
 Deface::Override.new(:virtual_path => "hosts/_form",
                      :name => "add_chef_tab_pane",

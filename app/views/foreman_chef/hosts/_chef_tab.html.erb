@@ -2,7 +2,7 @@
 
 <div class="tab-pane" id="chef">
 
-  <% if f.object.persisted? && f.object.run_list_differs? %>
+  <% if chef_run_list_differs?(f.object) %>
     <%= alert(:class => 'alert-warning', :header => 'Warning',
               :text => _('Run list on chef server differs, by submitting the form, you will override the run list there. ').html_safe +
                   link_to(_('Reset'), '#', :class => 'refresh_run_list', :'data-run-list' => (f.object.fresh_run_list.try(:to_form_json) || '[]')) +
