@@ -32,16 +32,24 @@ module ForemanChef
                  :data => { :url => environments_for_chef_proxy_foreman_chef_environments_path } })
     end
 
-    def chef_tab_menu
+    def chef_tab_menu(host)
       if SmartProxy.with_features("Chef").count > 0
+        warning = ''
+        if chef_run_list_differs?(host)
+          warning = content_tag(:span, '&nbsp;'.html_safe, :class => "pficon pficon-warning-triangle-o")
+        end
         content_tag :li do
-          '<a href="#chef" data-toggle="tab">Chef</a>'.html_safe
+          link_to(warning + _('Chef'), '#chef', :data => { :toggle => 'tab'})
         end
       end
     end
 
     def chef_tab_content(f)
       render 'foreman_chef/hosts/chef_tab', :f => f
+    end
+
+    def chef_run_list_differs?(host)
+      host.persisted? && host.run_list_differs?
     end
   end
 end
