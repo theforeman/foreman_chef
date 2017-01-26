@@ -49,7 +49,7 @@ module ForemanChef
     end
 
     def chef_run_list_differs?(host)
-      host.persisted? && host.run_list_differs?
+      host.persisted? && host.chef_proxy_id.present? && host.run_list_differs?
     end
   end
 end
