@@ -90,10 +90,8 @@ module ForemanChef
       ::Host::Managed.send :include, ForemanChef::Concerns::HostActionSubject
       ::Host::Managed.send :include, ForemanChef::Concerns::HostBuild
       ::HostsController.send :include, ForemanChef::Concerns::HostsControllerRescuer
-    end
 
-    config.after_initialize do
-      ::Foreman::Renderer.send :include, ForemanChef::Concerns::Renderer
+      ::Host::Managed.send :include, ForemanChef::Concerns::Renderer
     end
   end
 
