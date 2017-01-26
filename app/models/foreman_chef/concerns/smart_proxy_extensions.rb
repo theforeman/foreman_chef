@@ -4,7 +4,17 @@ module ForemanChef
       extend ActiveSupport::Concern
 
       included do
+        alias_method_chain :taxonomy_foreign_conditions, :chef
+
         has_many :chef_environments, :class_name => "::ForemanChef::Environment", :foreign_key => 'chef_proxy_id'
+      end
+
+      def taxonomy_foreign_conditions_with_chef
+        conditions = taxonomy_foreign_conditions_without_chef
+        if has_feature?('Chef')
+          conditions[:chef_proxy_id] = id
+        end
+        conditions
       end
 
       # create or overwrite instance methods...
