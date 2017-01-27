@@ -41,6 +41,7 @@ require 'chef_handler_foreman'
 foreman_server_options  :url => "<%= @host.params['chef_handler_foreman_url'] %>"
 foreman_facts_upload    true
 foreman_reports_upload  true
+foreman_enc             true
 EOF
 
 # You may set here the default run list for all your nodes
@@ -55,5 +56,8 @@ echo "First run of chef-client"
 
 echo "Finished, cleaning"
 rm -f /tmp/base.json
+
+<% if validation_bootstrap_method? -%>
 # you can comment this line to keep validaton.pem (e.g. for debugging purposes)
 rm -f /etc/chef/validation.pem
+<% end -%>
