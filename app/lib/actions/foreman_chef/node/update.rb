@@ -5,6 +5,8 @@ module Actions
 
         def plan(host, proxy)
           name = host.name
+          raise ::ForemanChef::HostDoesNotHaveChefProxy.new(N_('Host with name %s does not have chef proxy specified but asked to update the node') % name) if proxy.nil?
+
           node_exists_in_chef = proxy.show_node(name)
           if node_exists_in_chef
             # we can't use host.run_list.list_changed? or similar since it's after_save already

@@ -4,6 +4,8 @@ module Actions
       class Create < Actions::EntryAction
 
         def plan(name, proxy)
+          return if proxy.nil?
+
           client_exists_in_chef = proxy.show_client(name)
           if client_exists_in_chef
             raise ::ForemanChef::ObjectExistsException.new(N_('Client with name %s already exist on this Chef proxy' % name))
