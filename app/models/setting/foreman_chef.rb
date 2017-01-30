@@ -15,4 +15,8 @@ class Setting::ForemanChef < Setting
 
   end
 
+  def self.humanized_category
+    _('Chef')
+  end
+
 end
