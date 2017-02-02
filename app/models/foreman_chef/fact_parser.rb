@@ -17,8 +17,18 @@ module ForemanChef
         release_name = facts['kernel::name']
         os_name = os_name.capitalize
       else
-        description = facts['lsb::description']
+        # to keep OS names consistent with other cfgmgt agents we skip description importing
+        # description = facts['lsb::description']
         release_name = facts['lsb::codename']
+      end
+
+      # So far only CentOS needs exception
+      case os_name
+        when 'CentOS'
+          if major.to_i >= 7
+            # get the minor.build number, e.g. 7.2.1511 -> 2.1511
+            minor = release[2..-1]
+          end
       end
 
       begin
@@ -29,7 +39,7 @@ module ForemanChef
       end
 
       args = { :name => os_name, :major => major.to_s, :minor => minor.to_s }
-      klass.where(args).first || klass.new(args.merge(:description => description, :release_name => release_name)).tap(&:save!)
+      klass.where(args).first || klass.new(args.merge(:release_name => release_name)).tap(&:save!)
     end
 
     # we don't want to parse puppet environment, foreman_chef already has its own environment
