@@ -1,3 +1,15 @@
+Version 0.5.0
+
+* Unify operating system names on facts import with other cfgmgmt agents
+* Fixed bootstrap method condition
+* Trigger chef orchestration only when host has chef proxy set
+* Chef settings tab name changed
+* Bootstrap templates support ENC configuration
+* Fix image based provisioning with chef client bootstrapping
+* Warning icon for out of sync improved
+* Assets are properly namespaced
+* This version is compatible with Foreman 1.14+
+
 Version 0.4.1
 
 * Start using chef environment which prevents mismatches with puppet environments
