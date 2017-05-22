@@ -4,7 +4,7 @@ module Actions
       class Destroy < Actions::EntryAction
 
         def plan(fqdn, proxy)
-          if ::Setting::ForemanChef.auto_deletion && proxy.present?
+          if ::Setting::ForemanChef['auto_deletion'] && proxy.present?
             client_exists_in_chef = proxy.show_client(fqdn)
             if client_exists_in_chef
               plan_self :chef_proxy_id => proxy.id, :fqdn => fqdn
