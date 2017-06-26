@@ -28,7 +28,8 @@ module Actions
           proxy = ::SmartProxy.find_by_id(input[:chef_proxy_id])
           host = ::Host.find(input[:host_id])
           action_logger.debug "Updating node #{input[:name]} on proxy #{proxy.name} at #{proxy.url}"
-          proxy.update_node(host.name, host.run_list.as_chef_json.merge(:chef_environment => host.chef_environment.name))
+          host_run_list = host.chef_environment.nil? ? host.run_list.as_chef_json : host.run_list.as_chef_json.merge(:chef_environment => host.chef_environment.name)
+          proxy.update_node(host.name, host_run_list)
         end
 
         def humanized_name
