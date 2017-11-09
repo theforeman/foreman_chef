@@ -5,9 +5,9 @@ apt-get -y install ca-certificates
 
 # install.sh will install latest chef client version
 if [ -f /usr/bin/curl ]; then
-  curl -L https://www.chef.io/chef/install.sh | bash
+  curl -L https://www.chef.io/chef/install.sh <% if @host.params['chef_bootstrap_version'] -%>-v @host.params['chef_bootstrap_version']<% end -%> | bash
 else
-  wget https://www.chef.io/chef/install.sh -O- | bash
+  wget https://www.chef.io/chef/install.sh <% if@host.params['chef_bootstrap_version'] -%>-v @host.params['chef_bootstrap_version']<% end -%> -O- | bash
 fi
 
 # if you want specific version you can use something like this instead of install.sh
