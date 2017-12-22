@@ -18,10 +18,8 @@ module Actions
             end
           end
         rescue => e
-          Rails.logger.debug "Unable to communicate with Chef proxy, #{e.message}"
-          Rails.logger.debug e.backtrace.join("\n")
-          raise ::ForemanChef::ProxyException.new(N_('Unable to communicate with Chef proxy, %s' % e.message))
-          # TODO these errors causing form not to display anything and double traces, we need reraise
+          Rails.logger.warn "Unable to communicate with Chef proxy, #{e.message}"
+          Rails.logger.warn e.backtrace.join("\n")
         end
 
         def humanized_name

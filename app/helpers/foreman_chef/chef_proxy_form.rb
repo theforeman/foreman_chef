@@ -12,11 +12,16 @@ module ForemanChef
     end
 
     def chef_proxy_form_chef_environment_select(f, environments)
-      if f.object.is_a?(Host::Base) &&f.object.persisted? && f.object.chef_environment_differs?
-        help = content_tag(:span, ' ', :class => 'pficon pficon-warning-triangle-o') + ' ' + _('Chef environment is set to %s on Chef server, submitting will override it') % f.object.fresh_chef_environment
+      begin
+        if f.object.is_a?(Host::Base) && f.object.persisted? && f.object.chef_environment_differs?
+          help = content_tag(:span, ' ', :class => 'pficon pficon-warning-triangle-o') + ' ' + _('Chef environment is set to %s on Chef server, submitting will override it') % f.object.fresh_chef_environment
+          help = help.html_safe
+        else
+          help = nil
+        end
+      rescue => e # chef server communication issue
+        help = content_tag(:span, ' ', :class => 'pficon pficon-warning-triangle-o') + ' ' + _('Unable to communicate with Chef server - %s.') % e.message
         help = help.html_safe
-      else
-        help = nil
       end
 
       select_f(f, :chef_environment_id, environments, :id, :name,
@@ -35,13 +40,21 @@ module ForemanChef
     def chef_tab_menu(host)
       if SmartProxy.with_features("Chef").count > 0
         warning = ''
-        if chef_run_list_differs?(host)
-          warning = content_tag(:span, '&nbsp;'.html_safe, :class => "pficon pficon-warning-triangle-o")
+        begin
+          if chef_run_list_differs?(host)
+            warning = chef_warning_icon
+          end
+        rescue => e
+          warning = chef_warning_icon
         end
         content_tag :li do
           link_to(warning + _('Chef'), '#chef', :data => { :toggle => 'tab'})
         end
       end
+    end
+
+    def chef_warning_icon
+      content_tag(:span, '&nbsp;'.html_safe, :class => "pficon pficon-warning-triangle-o")
     end
 
     def chef_tab_content(f)

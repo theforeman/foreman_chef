@@ -25,8 +25,8 @@ module Actions
         end
 
         def run
-          proxy = ::SmartProxy.find_by_id(input[:chef_proxy_id])
-          host = ::Host.find(input[:host_id])
+          proxy = ::SmartProxy.unscoped.find_by_id(input[:chef_proxy_id])
+          host = ::Host.unscoped.find(input[:host_id])
           action_logger.debug "Updating node #{input[:name]} on proxy #{proxy.name} at #{proxy.url}"
           proxy.update_node(host.name, host.run_list.as_chef_json.merge(:chef_environment => host.chef_environment.name))
         end

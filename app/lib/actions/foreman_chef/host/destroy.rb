@@ -25,7 +25,7 @@ module Actions
         end
 
         def run
-          proxy = ::SmartProxy.find_by_id(input[:chef_proxy_id])
+          proxy = ::SmartProxy.unscoped.find_by_id(input[:chef_proxy_id])
           action_logger.debug "Deleting #{input[:host][:name]} on proxy #{proxy.name} at #{proxy.url}"
           self.output = proxy.delete_node(input[:host][:name])
         end
