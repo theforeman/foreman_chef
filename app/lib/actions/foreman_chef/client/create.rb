@@ -13,7 +13,7 @@ module Actions
             plan_self :chef_proxy_id => proxy.id, :name => name
           end
         rescue => e
-          Foreman::Logging.exception("Unable to communicate with Chef proxy", e)
+          ::Foreman::Logging.exception("Unable to communicate with Chef proxy", e)
           raise ::ForemanChef::ProxyException.new(N_('CLIENT Unable to communicate with Chef proxy, %s' % e.message))
         end
 

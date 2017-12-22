@@ -18,7 +18,7 @@ module Actions
             end
           end
         rescue => e
-          Foreman::Logging.exception("Unable to communicate with Chef proxy", e)
+          ::Foreman::Logging.exception("Unable to communicate with Chef proxy", e)
         end
 
         def humanized_name

@@ -5,11 +5,6 @@ module ForemanChef
       include ForemanTasks::Concerns::ActionSubject
       include ForemanTasks::Concerns::ActionTriggering
 
-      def create_action
-        sync_action!
-        ::Actions::ForemanChef::Host::Create
-      end
-
       def update_action
         sync_action!
         ::Actions::ForemanChef::Host::Update
