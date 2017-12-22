@@ -11,7 +11,7 @@ module Actions
             end
           end
         rescue => e
-          ::Foreman::Logging.exception('Unable to communicate with Chef proxy', e, :logger => 'foreman_chef')
+          ::Foreman::Logging.exception('Unable to communicate with Chef proxy', e)
           raise ::ForemanChef::ProxyException.new(N_('Unable to communicate with Chef proxy, %s' % e.message))
         end
 
