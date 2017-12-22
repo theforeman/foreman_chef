@@ -18,22 +18,21 @@ module Actions
                 plan_action Actions::ForemanChef::Client::Destroy, host.name, host.chef_proxy
               end
 
-              unless ::Setting::ForemanChef.validate_bootstrap_method
+              unless ::Setting[:validation_bootstrap_method]
                 client_creation = plan_action Actions::ForemanChef::Client::Create, host.name, host.chef_proxy
               end
 
-              plan_self(:create_action_output => client_creation.output)
+              plan_self(:create_action_output => client_creation.try(:output) || {})
             end
           end
         rescue => e
-          Rails.logger.debug "Unable to communicate with Chef proxy, #{e.message}"
-          Rails.logger.debug e.backtrace.join("\n")
+          Foreman::Logging.exception("Unable to communicate with Chef proxy", e)
           raise ::ForemanChef::ProxyException.new(N_('Unable to communicate with Chef proxy, %s' % e.message))
         end
 
         def finalize
-          if input[:create_action_output][:private_key].present? && !Setting.validation_bootstrap_method
-            host = ::Host.find(self.input[:host][:id])
+          if input[:create_action_output][:private_key].present? && !::Setting[:validation_bootstrap_method]
+            host = ::Host.unscoped.find(self.input[:host][:id])
             host.chef_private_key = input[:create_action_output][:private_key]
             host.disable_dynflow_hooks { |h| h.save! }
           end

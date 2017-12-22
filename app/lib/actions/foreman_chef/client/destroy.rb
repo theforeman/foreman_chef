@@ -4,7 +4,7 @@ module Actions
       class Destroy < Actions::EntryAction
 
         def plan(fqdn, proxy)
-          if ::Setting::ForemanChef.auto_deletion && proxy.present?
+          if ::Setting[:auto_deletion] && proxy.present?
             client_exists_in_chef = proxy.show_client(fqdn)
             if client_exists_in_chef
               plan_self :chef_proxy_id => proxy.id, :fqdn => fqdn
@@ -16,7 +16,7 @@ module Actions
         end
 
         def run
-          proxy = ::SmartProxy.find_by_id(input[:chef_proxy_id])
+          proxy = ::SmartProxy.unscoped.find_by_id(input[:chef_proxy_id])
           action_logger.debug "Deleting client #{input[:fqdn]} on proxy #{proxy.name} at #{proxy.url}"
           self.output = proxy.delete_client(input[:fqdn])
         end

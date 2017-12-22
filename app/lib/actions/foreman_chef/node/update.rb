@@ -19,14 +19,13 @@ module Actions
             raise ::ForemanChef::ObjectDoesNotExistException.new(N_('Node with name %s does not exist on this Chef proxy' % name))
           end
         rescue => e
-          Rails.logger.debug "Unable to communicate with Chef proxy, #{e.message}"
-          Rails.logger.debug e.backtrace.join("\n")
+          Foreman::Logging.exception("Unable to communicate with Chef proxy", e)
           raise ::ForemanChef::ProxyException.new(N_('Unable to communicate with Chef proxy, %s' % e.message))
         end
 
         def run
-          proxy = ::SmartProxy.find_by_id(input[:chef_proxy_id])
-          host = ::Host.find(input[:host_id])
+          proxy = ::SmartProxy.unscoped.find_by_id(input[:chef_proxy_id])
+          host = ::Host.unscoped.find(input[:host_id])
           action_logger.debug "Updating node #{input[:name]} on proxy #{proxy.name} at #{proxy.url}"
           proxy.update_node(host.name, host.run_list.as_chef_json.merge(:chef_environment => host.chef_environment.name))
         end

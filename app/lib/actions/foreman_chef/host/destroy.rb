@@ -11,7 +11,7 @@ module Actions
 
         def plan(host)
           action_subject(host)
-          if (::Setting::ForemanChef.auto_deletion && proxy = host.chef_proxy)
+          if (::Setting[:auto_deletion] && proxy = host.chef_proxy)
             node_exists_in_chef = proxy.show_node(host.name)
             if node_exists_in_chef
               plan_self :chef_proxy_id => host.chef_proxy_id
@@ -25,7 +25,7 @@ module Actions
         end
 
         def run
-          proxy = ::SmartProxy.find_by_id(input[:chef_proxy_id])
+          proxy = ::SmartProxy.unscoped.find_by_id(input[:chef_proxy_id])
           action_logger.debug "Deleting #{input[:host][:name]} on proxy #{proxy.name} at #{proxy.url}"
           self.output = proxy.delete_node(input[:host][:name])
         end
