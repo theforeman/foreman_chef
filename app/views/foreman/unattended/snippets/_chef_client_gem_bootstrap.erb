@@ -1,4 +1,5 @@
 echo "Installing chef and chef_handler_foreman"
-gem install chef chef_handler_foreman
+gem install chef <%= host_param('chef_bootstrap_version') ? '-v ' + host_param('chef_bootstrap_version') : '' %>
+gem install chef_handler_foreman
 
 <%= snippet 'chef-client bootstrap' %>
