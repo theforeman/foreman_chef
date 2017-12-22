@@ -7,7 +7,7 @@ module ForemanChef
 
     has_many :hosts, :class_name => '::Host::Managed'
     has_many :hostgroups, :class_name => '::Hostgroup'
-    belongs_to :chef_proxy, :class_name => '::SmartProxy'
+    belongs_to :chef_proxy,  -> { unscope(:where) }, :class_name => '::SmartProxy'
 
     validates :name, :uniqueness => true, :presence => true, :format => { :with => /\A[\w\d\.]+\z/, :message => N_('is alphanumeric and cannot contain spaces') }
 
