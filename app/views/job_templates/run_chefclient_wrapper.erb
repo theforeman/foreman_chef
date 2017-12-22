@@ -1,0 +1,10 @@
+<%#
+name: Run chef-client wrapper
+job_category: Chef
+description_format: Run chef-client once
+snippet: false
+provider_type: SSH
+kind: job_template
+%>
+
+<%= render_template 'Run chef-client once', :log_level => 'auto', :why_run => 'no' %>

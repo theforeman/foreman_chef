@@ -14,6 +14,22 @@ templates.each do |template|
   ProvisioningTemplate.where(:name => template[:name]).first_or_create.update_attributes(defaults.merge(template))
 end
 
+if ForemanChef.with_remote_execution?
+  User.as_anonymous_admin do
+    JobTemplate.without_auditing do
+      Dir[File.join("#{ForemanChef::Engine.root}/app/views/job_templates/**/*.erb")].each do |template|
+        sync = !Rails.env.test? && Setting[:remote_execution_sync_templates]
+        # import! was renamed to import_raw! around 1.3.1
+        if JobTemplate.respond_to?('import_raw!')
+          JobTemplate.import_raw!(File.read(template), :default => true, :locked => true, :update => sync)
+        else
+          JobTemplate.import!(File.read(template), :default => true, :locked => true, :update => sync)
+        end
+      end
+    end
+  end
+end
+
 # Global parameters used in configuration snippets
 parameters = [
   { :name => 'chef_handler_foreman_url', :value => SmartProxy.with_features('Chef').first.try(:url) || Setting[:foreman_url] },

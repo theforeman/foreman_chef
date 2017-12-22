@@ -65,6 +65,10 @@ module ForemanChef
         parameter_filter ForemanChef::CachedRunList, :type, :name
         parameter_filter Host::Managed, :chef_private_key, :chef_proxy_id, :override_chef_attributes, :chef_environment_id, :run_list => [ parameter_filters(ForemanChef::CachedRunList) ]
         parameter_filter Hostgroup, :chef_proxy_id, :chef_environment_id
+
+        if ForemanChef.with_remote_execution? && Gem::Version.new(ForemanRemoteExecution::VERSION) >= Gem::Version.new('1.2.3')
+          RemoteExecutionFeature.register(:foreman_chef_run_chef_client, N_("Run chef-client Once"), :description => N_("Run chef-client once"), :host_action_button => true)
+        end
       end
     end
 
@@ -101,5 +105,10 @@ module ForemanChef
 
   def use_relative_model_naming
     true
+  end
+
+  # check whether foreman_remote_execution to integrate is available in the system
+  def self.with_remote_execution?
+    (RemoteExecutionFeature rescue false) ? true : false
   end
 end
