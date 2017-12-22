@@ -11,7 +11,7 @@ module ForemanChef
       end
 
       def validation_bootstrap_method?
-        ::Setting.validation_bootstrap_method
+        ::Setting['validation_bootstrap_method']
       end
     end
   end
