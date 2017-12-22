@@ -9,7 +9,7 @@ module ForemanChef
     has_many :hostgroups, :class_name => '::Hostgroup'
     belongs_to :chef_proxy,  -> { unscope(:where) }, :class_name => '::SmartProxy'
 
-    validates :name, :uniqueness => true, :presence => true, :format => { :with => /\A[\w\d\.]+\z/, :message => N_('is alphanumeric and cannot contain spaces') }
+    validates :name, :uniqueness => true, :presence => true, :format => { :with => /\A[-_\w\d]+\Z/, :message => N_('must be alphanumeric with dashes and hyphens and cannot contain spaces') }
 
     scoped_search :on => :name, :complete_value => true
     scoped_search :in => :hostgroups, :on => :name, :complete_value => true, :rename => :hostgroup
