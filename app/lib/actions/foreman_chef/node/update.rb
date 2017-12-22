@@ -19,8 +19,7 @@ module Actions
             raise ::ForemanChef::ObjectDoesNotExistException.new(N_('Node with name %s does not exist on this Chef proxy' % name))
           end
         rescue => e
-          Rails.logger.debug "Unable to communicate with Chef proxy, #{e.message}"
-          Rails.logger.debug e.backtrace.join("\n")
+          Foreman::Logging.exception("Unable to communicate with Chef proxy", e)
           raise ::ForemanChef::ProxyException.new(N_('Unable to communicate with Chef proxy, %s' % e.message))
         end
 

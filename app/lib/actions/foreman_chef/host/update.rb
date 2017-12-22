@@ -18,8 +18,7 @@ module Actions
             end
           end
         rescue => e
-          Rails.logger.warn "Unable to communicate with Chef proxy, #{e.message}"
-          Rails.logger.warn e.backtrace.join("\n")
+          Foreman::Logging.exception("Unable to communicate with Chef proxy", e)
         end
 
         def humanized_name
