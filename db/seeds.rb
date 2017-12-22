@@ -16,7 +16,7 @@ end
 
 # Global parameters used in configuration snippets
 parameters = [
-  { :name => 'chef_handler_foreman_url', :value => SmartProxy.with_features('Chef').first.try(:url) || Setting.foreman_url },
+  { :name => 'chef_handler_foreman_url', :value => SmartProxy.with_features('Chef').first.try(:url) || Setting[:foreman_url] },
   { :name => 'chef_server_url', :value => "https://#{Socket.gethostbyname(Socket.gethostname).first}" },
   { :name => 'chef_validation_private_key', :value => 'UNSPECIFIED, you must upload your validation key here' },
   { :name => 'chef_bootstrap_template', :value => 'chef-client omnibus bootstrap' },

@@ -18,7 +18,7 @@ module Actions
                 plan_action Actions::ForemanChef::Client::Destroy, host.name, host.chef_proxy
               end
 
-              unless ::Setting.validation_bootstrap_method
+              unless ::Setting[:validation_bootstrap_method]
                 client_creation = plan_action Actions::ForemanChef::Client::Create, host.name, host.chef_proxy
               end
 
@@ -32,7 +32,7 @@ module Actions
         end
 
         def finalize
-          if input[:create_action_output][:private_key].present? && !::Setting.validation_bootstrap_method
+          if input[:create_action_output][:private_key].present? && !::Setting[:validation_bootstrap_method]
             host = ::Host.unscoped.find(self.input[:host][:id])
             host.chef_private_key = input[:create_action_output][:private_key]
             host.disable_dynflow_hooks { |h| h.save! }
