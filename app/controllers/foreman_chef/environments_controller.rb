@@ -3,7 +3,7 @@ module ForemanChef
     include Foreman::Controller::AutoCompleteSearch
     include ForemanChef::Concerns::EnvironmentParameters
 
-    before_filter :find_resource, :only => [:edit, :update, :destroy]
+    before_action :find_resource, :only => [:edit, :update, :destroy]
 
     def import
       proxy = SmartProxy.authorized(:view_smart_proxies).find(params[:proxy])

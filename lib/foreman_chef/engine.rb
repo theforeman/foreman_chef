@@ -47,7 +47,7 @@ module ForemanChef
 
     initializer 'foreman_chef.register_plugin', :before => :finisher_hook do |app|
       Foreman::Plugin.register :foreman_chef do
-        requires_foreman '>= 1.15'
+        requires_foreman '>= 1.17'
         extend_template_helpers ForemanChef::Concerns::Renderer
 
         permission :import_chef_environments, { :environments => [:import, :synchronize] }, :resource_type => 'ForemanChef::Environment'
@@ -88,12 +88,12 @@ module ForemanChef
 
       ::Host::Managed.send :include, ForemanChef::Concerns::HostAndHostgroupExtensions
       ::Hostgroup.send :include, ForemanChef::Concerns::HostAndHostgroupExtensions
-      ::Host::Managed.send :include, ForemanChef::Concerns::HostExtensions
+      ::Host::Managed.send :prepend, ForemanChef::Concerns::HostExtensions
       ::Hostgroup.send :include, ForemanChef::Concerns::HostgroupExtensions
-      ::SmartProxy.send :include, ForemanChef::Concerns::SmartProxyExtensions
-      ::Host::Managed.send :include, ForemanChef::Concerns::HostActionSubject
-      ::Host::Managed.send :include, ForemanChef::Concerns::HostBuild
-      ::HostsController.send :include, ForemanChef::Concerns::HostsControllerRescuer
+      ::SmartProxy.send :prepend, ForemanChef::Concerns::SmartProxyExtensions
+      ::Host::Managed.send :prepend, ForemanChef::Concerns::HostActionSubject
+      ::Host::Managed.send :prepend, ForemanChef::Concerns::HostBuild
+      ::HostsController.send :prepend, ForemanChef::Concerns::HostsControllerRescuer
 
       ::Host::Managed.send :include, ForemanChef::Concerns::Renderer
     end

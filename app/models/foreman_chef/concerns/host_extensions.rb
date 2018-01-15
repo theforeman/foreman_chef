@@ -5,12 +5,10 @@ module ForemanChef
 
       DEFAULT = ['role[default]']
 
-      included do
-        alias_method_chain :inherited_attributes, :chef_attributes
-
+      def self.prepended(base)
         # even with autosave, save is called only if there's some change in attributes
-        has_one :cached_run_list, :autosave => true, :class_name => 'ForemanChef::CachedRunList', :foreign_key => :host_id
-        attr_accessor :override_chef_attributes
+        base.has_one :cached_run_list, :autosave => true, :class_name => 'ForemanChef::CachedRunList', :foreign_key => :host_id
+        base.send :attr_accessor, :override_chef_attributes
       end
 
       def run_list
@@ -64,7 +62,7 @@ module ForemanChef
       end
 
       def inherited_attributes_with_chef_attributes
-        inherited_attributes_without_chef_attributes.concat(%w(chef_proxy_id chef_environment_id))
+        super.concat(%w(chef_proxy_id chef_environment_id))
       end
 
       private
