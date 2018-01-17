@@ -1,14 +1,10 @@
 module ForemanChef
   module Concerns
     module HostBuild
-      extend ActiveSupport::Concern
-      included do
-        include ForemanTasks::Concerns::ActionSubject
-        include ForemanTasks::Concerns::ActionTriggering
+      def self.prepended(base)
+        base.send :prepend, ForemanTasks::Concerns::ActionTriggering
 
-        alias_method_chain :setSSHProvisionScript, :chef
-
-        after_build do |host|
+        base.after_build do |host|
           ::ForemanTasks.sync_task ::Actions::ForemanChef::Client::Destroy, host.name, host.chef_proxy
           # private key is no longer valid
           host.chef_private_key = nil
@@ -22,7 +18,7 @@ module ForemanChef
         end
       end
 
-      def setSSHProvisionScript_with_chef
+      def setSSHProvisionScript
         ::ForemanTasks.sync_task ::Actions::ForemanChef::Client::Destroy, self.name, self.chef_proxy
         # private key is no longer valid
         self.chef_private_key = nil
@@ -32,7 +28,7 @@ module ForemanChef
           self.chef_private_key = new_client.output[:private_key]
         end
 
-        self.disable_dynflow_hooks { |h| setSSHProvisionScript_without_chef; h.save! }
+        self.disable_dynflow_hooks { |h| super; h.save! }
       end
     end
   end

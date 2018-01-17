@@ -1,21 +1,18 @@
 module ForemanChef
   module Concerns
     module HostsControllerRescuer
-      extend ActiveSupport::Concern
-
-      included do
-        rescue_from ForemanChef::ProxyException, :with => :chef_exception
-        # this route is only allowed to puppet proxies so we need to allow it for chef proxies too
-        alias_method_chain :require_smart_proxy_or_login, :chef
+      def self.prepended(base)
+        base.rescue_from ForemanChef::ProxyException, :with => :chef_exception
       end
 
       private
 
-      def require_smart_proxy_or_login_with_chef(features = nil)
+      # this route is only allowed to puppet proxies so we need to allow it for chef proxies too
+      def require_smart_proxy_or_login(features = nil)
         if params[:action] == 'externalNodes' && features.kind_of?(Array) && features.include?('Puppet')
-          require_smart_proxy_or_login_without_chef(features + [ 'Chef' ])
+          super(features + [ 'Chef' ])
         else
-          require_smart_proxy_or_login_without_chef(features)
+          super(features)
         end
       end
 
