@@ -9,7 +9,7 @@
    ) %>
 <% title_actions button_group(new_link(_('New Chef Environment'))) %>
 
-<table class="table table-bordered table-striped">
+<table class="<%= table_css_classes %>">
   <tr>
     <th><%= sort :name, :as => s_('Environment|Name') %></th>
     <th><%= sort :host, :as => _('Hosts'), :default => 'DESC'  %></th>
