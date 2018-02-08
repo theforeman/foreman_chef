@@ -1,4 +1,4 @@
-class CreateForemanChefCachedRunList < ActiveRecord::Migration
+class CreateForemanChefCachedRunList < ActiveRecord::Migration[4.2]
   def change
     create_table :foreman_chef_cached_run_lists do |t|
       t.text :list, :null => false

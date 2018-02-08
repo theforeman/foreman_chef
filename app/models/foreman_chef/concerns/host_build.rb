@@ -2,6 +2,7 @@ module ForemanChef
   module Concerns
     module HostBuild
       def self.prepended(base)
+        base.send :prepend, ForemanTasks::Concerns::ActionSubject
         base.send :prepend, ForemanTasks::Concerns::ActionTriggering
 
         base.after_build do |host|

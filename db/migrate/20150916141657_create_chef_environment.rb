@@ -1,4 +1,4 @@
-class CreateChefEnvironment < ActiveRecord::Migration
+class CreateChefEnvironment < ActiveRecord::Migration[4.2]
   def up
     create_table :foreman_chef_environments do |t|
       t.string :name, :default => '', :null => false
