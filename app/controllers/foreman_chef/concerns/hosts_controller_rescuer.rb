@@ -7,7 +7,6 @@ module ForemanChef
 
       private
 
-      # this route is only allowed to puppet proxies so we need to allow it for chef proxies too
       def require_smart_proxy_or_login(features = nil)
         if params[:action] == 'externalNodes' && features.kind_of?(Array) && features.include?('Puppet')
           super(features + [ 'Chef' ])

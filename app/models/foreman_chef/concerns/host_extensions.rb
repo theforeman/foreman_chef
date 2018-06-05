@@ -1,8 +1,6 @@
 module ForemanChef
   module Concerns
     module HostExtensions
-      extend ActiveSupport::Concern
-
       DEFAULT = ['role[default]']
 
       def self.prepended(base)
@@ -61,7 +59,7 @@ module ForemanChef
         run_list_differs? || chef_environment_differs?
       end
 
-      def inherited_attributes_with_chef_attributes
+      def inherited_attributes
         super.concat(%w(chef_proxy_id chef_environment_id))
       end
 

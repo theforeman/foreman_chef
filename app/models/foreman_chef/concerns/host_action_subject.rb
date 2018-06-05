@@ -1,9 +1,10 @@
 module ForemanChef
   module Concerns
     module HostActionSubject
-      extend ActiveSupport::Concern
-      include ForemanTasks::Concerns::ActionSubject
-      include ForemanTasks::Concerns::ActionTriggering
+      def self.prepended(base)
+        base.send :prepend, ForemanTasks::Concerns::ActionSubject
+        base.send :prepend, ForemanTasks::Concerns::ActionTriggering
+      end
 
       def update_action
         sync_action!

@@ -7,7 +7,7 @@ module ForemanChef
         base.has_many :chef_environments, :class_name => "::ForemanChef::Environment", :foreign_key => 'chef_proxy_id'
       end
 
-      def taxonomy_foreign_conditions_with_chef
+      def taxonomy_foreign_conditions
         conditions = super
         if has_feature?('Chef')
           conditions[:chef_proxy_id] = id
