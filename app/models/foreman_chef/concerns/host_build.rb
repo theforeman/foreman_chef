@@ -2,9 +2,6 @@ module ForemanChef
   module Concerns
     module HostBuild
       def self.prepended(base)
-        base.send :prepend, ForemanTasks::Concerns::ActionSubject
-        base.send :prepend, ForemanTasks::Concerns::ActionTriggering
-
         base.after_build do |host|
           ::ForemanTasks.sync_task ::Actions::ForemanChef::Client::Destroy, host.name, host.chef_proxy
           # private key is no longer valid

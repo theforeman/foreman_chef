@@ -88,6 +88,8 @@ module ForemanChef
 
       ::Host::Managed.send :include, ForemanChef::Concerns::HostAndHostgroupExtensions
       ::Hostgroup.send :include, ForemanChef::Concerns::HostAndHostgroupExtensions
+      ::Host::Managed.send :prepend, ForemanTasks::Concerns::ActionSubject
+      ::Host::Managed.send :prepend, ForemanTasks::Concerns::ActionTriggering
       ::Host::Managed.send :prepend, ForemanChef::Concerns::HostExtensions
       ::Hostgroup.send :include, ForemanChef::Concerns::HostgroupExtensions
       ::SmartProxy.send :prepend, ForemanChef::Concerns::SmartProxyExtensions

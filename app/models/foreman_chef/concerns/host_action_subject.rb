@@ -1,11 +1,6 @@
 module ForemanChef
   module Concerns
     module HostActionSubject
-      def self.prepended(base)
-        base.send :prepend, ForemanTasks::Concerns::ActionSubject
-        base.send :prepend, ForemanTasks::Concerns::ActionTriggering
-      end
-
       def update_action
         sync_action!
         ::Actions::ForemanChef::Host::Update
