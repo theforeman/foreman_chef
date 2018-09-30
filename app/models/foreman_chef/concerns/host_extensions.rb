@@ -63,6 +63,10 @@ module ForemanChef
         super.concat(%w(chef_proxy_id chef_environment_id))
       end
 
+      def action_input_key
+        "host"
+      end
+
       private
 
       def load_node_data
@@ -73,5 +77,5 @@ module ForemanChef
 end
 
 class ::Host::Managed::Jail < Safemode::Jail
-  allow :run_list
+  allow :run_list, :chef_proxy, :chef_environment, :chef_private_key
 end

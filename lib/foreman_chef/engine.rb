@@ -100,8 +100,9 @@ module ForemanChef
       ::Host::Managed.send :prepend, ForemanChef::Concerns::HostExtensions
       ::Hostgroup.send :include, ForemanChef::Concerns::HostgroupExtensions
       ::SmartProxy.send :prepend, ForemanChef::Concerns::SmartProxyExtensions
-      ::Host::Managed.send :prepend, ForemanChef::Concerns::HostActionSubject
       ::Host::Managed.send :prepend, ForemanChef::Concerns::HostBuild
+      ::HostsController.send :include, ForemanChef::Concerns::HostsControllerExtensions
+      ::Api::V2::HostsController.send :include, ForemanChef::Concerns::HostsControllerExtensions
       ::HostsController.send :prepend, ForemanChef::Concerns::HostsControllerRescuer
 
       ::Host::Managed.send :include, ForemanChef::Concerns::Renderer
