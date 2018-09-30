@@ -12,19 +12,18 @@ module ForemanChef
       @importer = ChefServerImporter.new(opts)
       @changed = @importer.changes
       if @changed.values.all?(&:empty?)
-        notice _("Nothing to synchronize")
-        redirect_to foreman_chef_environments_path
+        process_success :success_redirect => foreman_chef_environments_path, :success_msg => _("Nothing to synchronize")
       end
     end
 
     def synchronize
       proxy = SmartProxy.authorized(:view_smart_proxies).find(params[:proxy])
       if (errors = ChefServerImporter.new(:chef_proxy => proxy).obsolete_and_new(params[:changed])).empty?
-        notice _("Successfully updated environments")
+        process_success :success_redirect => foreman_chef_environments_path, :success_msg => _("Successfully updated environments")
       else
-        error _("Failed to update environments: %s") % errors.to_sentence
+        process_error :redirect => foreman_chef_environments_path, :error_msg => _("Failed to update environments: %s") % errors.to_sentence
       end
-      redirect_to foreman_chef_environments_path
+
     end
 
     def index
