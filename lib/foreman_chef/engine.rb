@@ -13,7 +13,7 @@ module ForemanChef
       end
     end
 
-    config.autoload_paths += Dir["#{config.root}/app/helpers/concerns"]
+    config.autoload_paths += Dir["#{config.root}/app/helpers"]
 
     # Precompile any JS or CSS files under app/assets/
     # If requiring files from each other, list them explicitly here to avoid precompiling the same
@@ -47,7 +47,7 @@ module ForemanChef
 
     initializer 'foreman_chef.register_plugin', :before => :finisher_hook do |app|
       Foreman::Plugin.register :foreman_chef do
-        requires_foreman '>= 1.17'
+        requires_foreman '>= 1.19'
         extend_template_helpers ForemanChef::Concerns::Renderer
 
         permission :import_chef_environments, { :environments => [:import, :synchronize] }, :resource_type => 'ForemanChef::Environment'
@@ -69,11 +69,18 @@ module ForemanChef
         if ForemanChef.with_remote_execution? && Gem::Version.new(ForemanRemoteExecution::VERSION) >= Gem::Version.new('1.2.3')
           RemoteExecutionFeature.register(:foreman_chef_run_chef_client, N_("Run chef-client Once"), :description => N_("Run chef-client once"), :host_action_button => true)
         end
+
+        register_report_scanner ForemanChef::ChefReportScanner
+        register_report_origin 'Chef', 'ConfigReport'
       end
     end
 
     initializer 'foreman_chef.chef_proxy_form' do |app|
       ActionView::Base.send :include, ChefProxyForm
+    end
+
+    initializer 'foreman_chef.chef_reports_helper' do |app|
+      ActionView::Base.send :include, ChefReportsHelper
     end
 
     initializer 'foreman_chef.dynflow_world', :before => 'foreman_tasks.initialize_dynflow' do |app|
