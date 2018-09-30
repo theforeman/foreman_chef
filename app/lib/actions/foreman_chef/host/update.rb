@@ -26,7 +26,7 @@ module Actions
         end
 
         def humanized_input
-          input[:host][:name]
+          input.try(:[], :host).try(:[], :name) || 'with unknown name'
         end
       end
     end
