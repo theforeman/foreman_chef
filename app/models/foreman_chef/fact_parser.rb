@@ -22,6 +22,13 @@ module ForemanChef
         release_name = facts['lsb::codename']
       end
 
+      # convert OHAI names to Foreman common OS names
+      case os_name
+        when 'RedHatEnterpriseServer'
+          os_name = 'RedHat'
+      end
+
+
       # So far only CentOS needs exception
       case os_name
         when 'CentOS'
