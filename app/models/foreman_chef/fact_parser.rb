@@ -122,11 +122,11 @@ module ForemanChef
     end
 
     def network_hash
-      @network_hash ||= ForemanChef::FactImporter::Sparser.new.unsparse(facts.select { |k, v| k =~ /\Anetwork::interfaces::/})['network']
+      @network_hash ||= ForemanChef::FactImporter::Sparser.new.unsparse(facts.select { |k, v| k =~ /\Anetwork::interfaces::/}).try(:[], 'network') || {}
     end
 
     def interfaces_hash
-      @interfaces_hash ||= network_hash['interfaces']
+      @interfaces_hash ||= network_hash.try(:[], 'interfaces') || {}
     end
 
     # adds attributes like virtual
