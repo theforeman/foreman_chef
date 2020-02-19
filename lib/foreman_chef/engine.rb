@@ -47,7 +47,7 @@ module ForemanChef
 
     initializer 'foreman_chef.register_plugin', :before => :finisher_hook do |app|
       Foreman::Plugin.register :foreman_chef do
-        requires_foreman '>= 1.24'
+        requires_foreman '>= 2.1.0'
         extend_template_helpers ForemanChef::Concerns::Renderer
 
         permission :import_chef_environments, { :environments => [:import, :synchronize] }, :resource_type => 'ForemanChef::Environment'
@@ -89,7 +89,7 @@ module ForemanChef
 
     #Include extensions to models in this config.to_prepare block
     config.to_prepare do
-      ::FactImporter.register_fact_importer(:foreman_chef, ForemanChef::FactImporter)
+      ::Foreman::Plugin.fact_importer_registry.register(:foreman_chef, ForemanChef::FactImporter)
       ::FactParser.register_fact_parser(:foreman_chef, ForemanChef::FactParser)
       ::ConfigReportImporter.register_smart_proxy_feature('Chef')
 
