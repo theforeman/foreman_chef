@@ -89,8 +89,6 @@ module ForemanChef
 
     #Include extensions to models in this config.to_prepare block
     config.to_prepare do
-      ::Foreman::Plugin.fact_importer_registry.register(:foreman_chef, ForemanChef::FactImporter)
-      ::FactParser.register_fact_parser(:foreman_chef, ForemanChef::FactParser)
       ::ConfigReportImporter.register_smart_proxy_feature('Chef')
 
       ::Host::Managed.send :include, ForemanChef::Concerns::HostAndHostgroupExtensions
