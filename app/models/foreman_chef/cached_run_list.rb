@@ -1,5 +1,5 @@
 module ForemanChef
-  class CachedRunList < ActiveRecord::Base
+  class CachedRunList < ApplicationRecord
     serialize :list
 
     belongs_to_host
