@@ -1,7 +1,7 @@
 # ForemanChef
 
 This plugin adds a Chef support to Foreman. You can find all information 
-[in the plugin manual](http://www.theforeman.org/plugins/foreman_chef/0.2)
+[in the plugin manual](https://theforeman.org/plugins/foreman_chef/0.8)
 
 # Installation
 
@@ -9,7 +9,7 @@ There are two ways to install the plugin:
 
 ## Foreman Installer (recommended)
 
-Follow the instructions on: http://www.theforeman.org/plugins/foreman_chef/0.2/#2.Installation
+Follow the instructions on: https://theforeman.org/plugins/foreman_chef/0.8/#2.Installation
 
 ## Manual
 
