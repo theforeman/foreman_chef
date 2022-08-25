@@ -47,7 +47,7 @@ module ForemanChef
 
     initializer 'foreman_chef.register_plugin', :before => :finisher_hook do |app|
       Foreman::Plugin.register :foreman_chef do
-        requires_foreman '>= 2.1.0'
+        requires_foreman '>= 3.3.0'
         extend_template_helpers ForemanChef::Concerns::Renderer
 
         permission :import_chef_environments, { :environments => [:import, :synchronize] }, :resource_type => 'ForemanChef::Environment'
@@ -89,7 +89,7 @@ module ForemanChef
 
     #Include extensions to models in this config.to_prepare block
     config.to_prepare do
-      ::ConfigReportImporter.register_smart_proxy_feature('Chef')
+      ::ReportImporter.register_smart_proxy_feature('Chef')
 
       ::Host::Managed.send :include, ForemanChef::Concerns::HostAndHostgroupExtensions
       ::Hostgroup.send :include, ForemanChef::Concerns::HostAndHostgroupExtensions
